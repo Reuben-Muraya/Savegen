@@ -83,12 +83,16 @@
                 <td>Admin</td>
                     <td>{{ $user->created_at->format('d-m-Y') }}</td>
                     <td>
-                        <a href="{{ route('users.edit',$user->id) }}" style="color: cyan">
+                        <a href="{{ route('users.edit',$user->id) }}" class="btn btn-info">
                             <i class="fa fa-pencil"></i>
                         </a> | 
-                        <a href="#" style="color: red">
+                        <button class="btn btn-danger" type="button" onclick="deleteUser({{ $user->id }})">
                             <i class="fa fa-trash-o"></i>
-                         </a>
+                        </button>
+                        <form id="delete-form-{{ $user->id }}" action="{{ route('users.destroy',$user->id) }}" method="POST" style="display: none;">
+                            @csrf
+                            @method('DELETE')
+                        </form>
                     </td>
             </tr>
             @endforeach
@@ -105,7 +109,42 @@
    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.17.4/dist/sweetalert2.all.min.js"></script>
+   <script type="text/javascript">
+    function deleteUser(id) {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success' ,
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
 
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true, 
+            confirmButtonText: 'Yes, delete it!' ,    
+            cancelButtonText: 'No, cancel!' ,   
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+            event.preventDefault();
+            document.getElementById('delete-form-'+id).submit();
+        } else if (
+                /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire(
+                'Cancelled',
+                'Your data is safe',
+                'error'
+            )
+        }
+    });
+    }
+</script>
 
 
    <script src="{{ asset('assets/js/lib/data-table/datatables.min.js') }}"></script>

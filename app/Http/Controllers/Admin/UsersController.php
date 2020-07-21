@@ -73,6 +73,11 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'username' => 'required',
+            'email' => ''
+        ]);
+
         $users = User::findOrFail($id);
         $users->username = $request->username;
         // $users->email = $request->email;
@@ -90,6 +95,8 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::findOrFail($id)->delete();
+        Toastr::success('User Successfully Deleted', 'Success');
+        return redirect()->back();
     }
 }
