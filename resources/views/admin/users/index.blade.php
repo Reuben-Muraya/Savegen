@@ -7,13 +7,13 @@
 @endpush
 
 @section('content')
-<div class="card">
+{{-- <div class="card">
     <div class="card-header">
         <strong class="card-title">Users List <span class="badge badge-primary">{{$users->count() }}</span></strong>
     </div>
     <div class="table-stats order-table ov-h">
         <table class="table ">
-            <thead>
+            <thead class="thead-dark">
                 <tr>
                     <th class="serial">#</th>
                     <th class="avatar">Avatar</th>
@@ -51,6 +51,51 @@
             </tbody>
         </table>
     </div> <!-- /.table-stats -->
+</div> --}}
+<div class="card">
+    <div class="card-header">
+        <strong class="card-title">Users List <span class="badge badge-primary">{{$users->count() }}</strong>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Avatar</th>
+                  <th scope="col">User Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Date Joined</th>
+                  <th scope="col">Action</th>
+              </tr>
+          </thead>
+          <tbody>
+            @foreach ($users as $key=>$user)
+            <tr>
+                <th scope="row">{{ $key + 1 }}</th>
+                <td class="avatar">
+                    <div class="round-img">
+                        <a href="#"><img class="rounded-circle" src="{{ asset('assets/img/avatar/1.jpg') }}" alt=""></a>
+                    </div>
+                </td>
+                <td>{{ $user->username }}</td>
+                <td>{{ $user->email }}</td>
+                <td>Admin</td>
+                    <td>{{ $user->created_at->format('d-m-Y') }}</td>
+                    <td>
+                        <a href="{{ route('users.edit',$user->id) }}" style="color: cyan">
+                            <i class="fa fa-pencil"></i>
+                        </a> | 
+                        <a href="#" style="color: red">
+                            <i class="fa fa-trash-o"></i>
+                         </a>
+                    </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+</div>
 </div>
 @endsection
 
