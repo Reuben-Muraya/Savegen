@@ -26,8 +26,8 @@ Route::group(['prefix' => 'admin','middleware'=>'auth','namespace'=>'admin'], fu
     Route::get('dashboard', 'DashboardController@index')->name('admin.dashboard');
 
     Route::resource('users','UsersController');
-
-
-    
+    Route::resource('contributions', 'ContributionsController');
+    Route::resource('loans', 'LoansController');
+    Route::resource('projects', 'ProjectsController');
 
 });

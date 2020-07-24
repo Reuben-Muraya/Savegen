@@ -9,6 +9,15 @@
                     <li class="{{ Request::is('admin/users*') ? 'active' : '' }}">
                         <a href="{{ route('users.index') }}"> <i class="menu-icon fa fa-users"></i>Users</a>
                     </li>
+                    <li class="{{ Request::is('admin/contributions*') ? 'active' : '' }}">
+                        <a href="{{ route('contributions.index') }}"> <i class="menu-icon fa fa-plus-circle"></i>Contributions</a>
+                    </li>
+                    <li class="{{ Request::is('admin/loans*') ? 'active' : '' }}">
+                        <a href="{{ route('loans.index') }}"> <i class="menu-icon fa fa-credit-card"></i>Loans</a>
+                    </li>
+                    <li class="{{ Request::is('admin/projects*') ? 'active' : '' }}">
+                        <a href="{{ route('projects.index') }}"> <i class="menu-icon fa fa-briefcase"></i>Projects</a>
+                    </li>
                     <!-- <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
                         <ul class="sub-menu children dropdown-menu">
