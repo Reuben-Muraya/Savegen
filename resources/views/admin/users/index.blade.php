@@ -80,7 +80,7 @@
                 </td>
                 <td>{{ $user->username }}</td>
                 <td>{{ $user->email }}</td>
-                <td>Admin</td>
+                <td>{{ $user->role_id }}</td>
                     <td>{{ $user->created_at->format('d-m-Y') }}</td>
                     <td>
                         <a href="{{ route('users.edit',$user->id) }}" class="btn btn-info">
