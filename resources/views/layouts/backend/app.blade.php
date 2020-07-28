@@ -17,28 +17,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/cs-skin-elastic.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"> 
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <style>
-       html {
-            position: relative;
-            min-height: 100%;
-        }
-        body {
-            margin: 0 0 100px; /* bottom = footer height */
-        }
-        footer {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            height: 100px;
-            width: 100%;
-            padding: 1rem;
-            text-align: center;
-        }
-    </style>
 </head>
 <body class="them-blue">
 
@@ -62,7 +45,7 @@
 </div>
 <!-- Scripts -->
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 {!! Toastr::message() !!}
 <script>
     @if($errors->any())

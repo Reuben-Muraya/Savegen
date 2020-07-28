@@ -30,4 +30,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth','namespace'=>'admin'], fu
     Route::resource('loans', 'LoansController');
     Route::resource('projects', 'ProjectsController');
 
+    Route::get('settings','SettingsController@index')->name('settings');
+    Route::put('profile-update','SettingsController@updateProfile')->name('profile.update');
+
 });

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
 
+
 class UsersController extends Controller
 {
     /**
@@ -49,7 +50,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        // return view('admin.users.show', compact('users'));
+        // 
     }
 
     /**
@@ -60,8 +61,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $users = User::findOrFail($id);
-        return view('admin.users.edit', compact('users'));
+        //
     }
 
     /**
@@ -73,18 +73,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-            'username' => 'required',
-            'email' => ''
-        ]);
-
-        $users = User::findOrFail($id);
-        $users->username = $request->username;
-        // $users->email = $request->email;
-        $users->save();
-
-        Toastr::success('User Details Successfully Updated', 'Success');
-        return redirect()->route('users.index');
+        //
     }
 
     /**
@@ -95,8 +84,6 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        User::findOrFail($id)->delete();
-        Toastr::success('User Successfully Deleted', 'Success');
-        return redirect()->back();
+        //
     }
 }
