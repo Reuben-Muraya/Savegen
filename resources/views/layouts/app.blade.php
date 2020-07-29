@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/cs-skin-elastic.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"> 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
 </head>
 <body>
@@ -41,5 +41,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    {!! Toastr::message() !!}
+    <script>
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                toastr.error('{{ $error }}', 'Error',{
+            closeButton:true,
+            progressBar:true,
+        });
+        @endforeach
+        @endif
+    </script>
+    @stack('js')
 </body>
 </html>

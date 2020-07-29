@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\User;
+use App\Contribution;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Brian2694\Toastr\Facades\Toastr;
 
 class ContributionsController extends Controller
 {
@@ -14,7 +17,8 @@ class ContributionsController extends Controller
      */
     public function index()
     {
-        return view('admin.contributions.index');
+        $users = User::all();
+        return view('admin.contributions.index', compact('users'));
     }
 
     /**
@@ -35,7 +39,21 @@ class ContributionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'users' => 'required',
+            'amount' => 'required',
+            'date' => 'required'
+        ]);
+        $contribution = new Contribution();
+        $contribution->amount = $request->amount;
+        $contribution->date = $request->date;
+        // dd($contribution);
+        $contribution->save();
+
+        $contribution->users()->attach($request->users);
+
+        Toastr::success('Contribution Added Successfully','Success');
+        return redirect()->back();
     }
 
     /**

@@ -24,7 +24,7 @@
                                     <th>Phone No.</th>
                                     <th>ID NUMBER</th>
                                     <th>Email</th>
-                                    <th>Role</th>
+                                    {{-- <th>Role</th> --}}
                                     <th>Date Joined</th>
                                     {{-- <th>Action</th> --}}
                                 </tr>
@@ -37,9 +37,9 @@
                                     <td>{{ $user->phone_no }}</td>
                                     <td>{{ $user->id_number }}</td>
                                     <td>{{ $user->email}}</td>
-                                    <td>
+                                    {{-- <td>
                                         Admin
-                                    </td>
+                                    </td> --}}
                                     <td>{{ $user->created_at }}</td>
                                 </tr>
                                 @endforeach
