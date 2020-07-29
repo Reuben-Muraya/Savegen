@@ -3,109 +3,59 @@
 @section('title', 'Users')
 
 @push('css')
-<link rel="stylesheet" href="{{ asset('assets/css/lib/datatable/dataTables.bootstrap.min.css') }}">
-.img {
-    max-width: 10%;
-}
+
 @endpush
 
 @section('content')
-{{-- <div class="card">
-    <div class="card-header">
-        <strong class="card-title">Users List <span class="badge badge-primary">{{$users->count() }}</span></strong>
-    </div>
-    <div class="table-stats order-table ov-h">
-        <table class="table ">
-            <thead class="thead-dark">
-                <tr>
-                    <th class="serial">#</th>
-                    <th class="avatar">Avatar</th>
-                    <th>User Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Date Joined</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($users as $key=>$user)
-                  <tr>
-                    <td class="serial">{{ $key + 1 }}</td>
-                    <td class="avatar">
-                        <div class="round-img">
-                            <a href="#"><img class="rounded-circle" src="{{ asset('assets/img/avatar/1.jpg') }}" alt=""></a>
-                        </div>
-                    </td>
-                    <td><span class="name">{{ $user->username }}</span> </td>
-                    <td>{{ $user->email }}</td>
-                    <td>Admin</td>
-                    <td>{{ $user->created_at->format('d-m-Y') }}</td>
-                    <td>
-                        <a href="{{ route('users.edit',$user->id) }}" style="color: cyan">
-                            <i class="fa fa-pencil"></i>
-                        </a> | 
-                        <a href="#" style="color: red">
-                            <i class="fa fa-trash-o"></i>
-                         </a>
-                    </td>
-                  </tr> 
-                @endforeach
-                    
-            </tbody>
-        </table>
-    </div> <!-- /.table-stats -->
-</div> --}}
-<div class="card">
-    <div class="card-header">
-        <strong class="card-title">Users List <span class="badge badge-primary">{{$users->count() }}</strong>
-    </div>
-    <div class="card-body">
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                  <th scope="col">#</th>
-                  {{-- <th scope="col">Avatar</th> --}}
-                  <th scope="col">User Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Role</th>
-                  <th scope="col">Date Joined</th>
-                  <th scope="col">Action</th>
-              </tr>
-          </thead>
-          <tbody>
-            @foreach ($users as $key=>$user)
-            <tr>
-                <th scope="row">{{ $key + 1 }}</th>
-                {{-- <td class="avatar">
-                    <div class="round-img">
-                        <a href="#"><img class="user-avatar rounded-circle" src="{{ url('storage/profile/'.Auth::user()->image) }}" alt="User Avatar"></a>
+<div class="content">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">Users List <span class="badge badge-primary">{{$users->count() }}</strong>
                     </div>
-                </td> --}}
-                <td>{{ $user->username }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->role_id }}</td>
-                    <td>{{ $user->created_at->format('d-m-Y') }}</td>
-                    <td> 
-                        {{-- <button class="btn btn-danger" type="button" onclick="deleteUser({{ $user->id }})">
-                            <i class="fa fa-trash-o"></i>
-                        </button>
-                        <form id="delete-form-{{ $user->id }}" action="{{ route('users.destroy',$user->id) }}" method="POST" style="display: none;">
-                            @csrf
-                            @method('DELETE')
-                        </form> --}}
-                    </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-</div>
-</div>
+                    <div class="card-body">
+                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Phone No.</th>
+                                    <th>ID NUMBER</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Date Joined</th>
+                                    {{-- <th>Action</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($users as $key=>$user)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $user->first_name }} {{ $user->last_name }}</td>
+                                    <td>{{ $user->phone_no }}</td>
+                                    <td>{{ $user->id_number }}</td>
+                                    <td>{{ $user->email}}</td>
+                                    <td>
+                                        Admin
+                                    </td>
+                                    <td>{{ $user->created_at }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- .animated -->
+</div><!-- .content -->
 @endsection
 
 @push('js')
    <!-- Scripts -->
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.17.4/dist/sweetalert2.all.min.js"></script>
+   {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.17.4/dist/sweetalert2.all.min.js"></script>
    <script type="text/javascript">
     function deleteUser(id) {
         const swalWithBootstrapButtons = Swal.mixin({
@@ -140,7 +90,7 @@
         }
     });
     }
-</script>
+</script> --}}
    <script src="{{ asset('assets/js/lib/data-table/datatables.min.js') }}"></script>
    <script src="{{ asset('assets/js/lib/data-table/dataTables.bootstrap.min.js') }}"></script>
    <script src="{{ asset('assets/js/lib/data-table/dataTables.buttons.min.js') }}"></script>

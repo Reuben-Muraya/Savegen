@@ -18,8 +18,20 @@
                     @csrf
                     @method('PUT')
                     <div class="row form-group">
-                        <div class="col col-md-3"><label for="name" class=" form-control-label"><strong>Username:</strong></label></div>
-                        <div class="col-12 col-md-9"><input type="text" id="username" name="username" placeholder="Enter your username" class="form-control" value="{{ Auth::user()->username }}"></div>
+                        <div class="col col-md-3"><label for="first_name" class=" form-control-label"><strong>First Name:</strong></label></div>
+                        <div class="col-12 col-md-9"><input type="text" id="first_name" name="first_name" placeholder="Enter your First Name" class="form-control" value="{{ Auth::user()->first_name }}"></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="last_name" class=" form-control-label"><strong>Last Name:</strong></label></div>
+                        <div class="col-12 col-md-9"><input type="text" id="last_name" name="last_name" placeholder="Enter your Last Name" class="form-control" value="{{ Auth::user()->last_name }}"></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="phone_no" class=" form-control-label"><strong>Phone Number:</strong></label></div>
+                        <div class="col-12 col-md-9"><input type="text" id="phone_no" name="phone_no" placeholder="Enter your Phone Number" class="form-control" value="{{ Auth::user()->phone_no }}"></div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="id_number" class=" form-control-label"><strong>ID Number / Passport No:</strong></label></div>
+                        <div class="col-12 col-md-9"><input type="text" id="id_number" name="id_number" placeholder="Enter your ID / Passport No" class="form-control" value="{{ Auth::user()->id_number }}"></div>
                     </div>
                     <div class="row form-group">
                         <div class="col col-md-3"><label for="email" class=" form-control-label"><strong>Email Address:</strong></label></div>
@@ -70,7 +82,13 @@
                         <hr>
                         <div class="form-group">
                             <div class="text-center">
-                                Username: <strong> {{ Auth::user()->username }}</strong>
+                                Name: <strong> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</strong>
+                              </div>
+                              <div class="text-center">
+                                  Phone No: <strong> {{ Auth::user()->phone_no }}</strong>
+                              </div>
+                              <div class="text-center">
+                                  ID Number: <strong> {{ Auth::user()->id_number }}</strong>
                               </div>
                               <div class="text-center">
                                   Email: <strong> {{ Auth::user()->email }}</strong>

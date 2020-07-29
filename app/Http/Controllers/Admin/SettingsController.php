@@ -22,12 +22,15 @@ class SettingsController extends Controller
     public function updateProfile(Request $request)
     {
         $this->validate($request,[
-            'username' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone_no' => 'required',
+            'id_number' => 'required',
             'email' => 'required|email',
             'image' => 'image'
         ]);
         $image = $request->file('image');
-        $slug = Str::slug($request->username);
+        $slug = Str::slug($request->first_name);
         $user = User::findOrFail(Auth::id());
         if (isset($image))
         {
@@ -47,7 +50,10 @@ class SettingsController extends Controller
         }else{
             $imageName = $user->image;
         }
-        $user->username = $request->username;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->phone_no = $request->phone_no;
+        $user->id_number = $request->id_number;
         $user->email = $request->email;
         $user->about = $request->about;
         $user->image = $imageName;
