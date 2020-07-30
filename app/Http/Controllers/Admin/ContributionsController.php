@@ -18,7 +18,8 @@ class ContributionsController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('admin.contributions.index', compact('users'));
+        $contributions = Contribution::all();
+        return view('admin.contributions.index', compact('users', 'contributions'));
     }
 
     /**
@@ -40,17 +41,19 @@ class ContributionsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'users' => 'required',
             'amount' => 'required',
-            'date' => 'required'
+            'date' => 'required',
+            'users' => 'required'
         ]);
         $contribution = new Contribution();
         $contribution->amount = $request->amount;
         $contribution->date = $request->date;
+        // dd($request->all());
         // dd($contribution);
         $contribution->save();
-
+        
         $contribution->users()->attach($request->users);
+        
 
         Toastr::success('Contribution Added Successfully','Success');
         return redirect()->back();
@@ -98,6 +101,12 @@ class ContributionsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $contributions = Contribution::findOrFail($id);
+        $contributions->users()->detach();
+        
+        $contributions->delete();
+
+        Toastr::success('Contribution Successfully Deleted', 'Success');
+        return redirect()->back();
     }
 }

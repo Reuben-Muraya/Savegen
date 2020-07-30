@@ -44,6 +44,6 @@ class User extends Authenticatable
 
     public function contributions()
     {
-        return $this->hasMany('App\Contribution');
+        return $this->belongsToMany('App\Contribution')->withTimestamps();
     }
 }
