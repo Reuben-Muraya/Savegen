@@ -48,6 +48,40 @@
   
 {{-- End Add Modal --}}
 
+  {{-- Start Edit Modal1 --}}
+  {{-- <div class="modal fade" id="updatecontribution" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Contribution</h5>
+        </div>
+        <form action="{{ route('contributions.update',$contributions->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+            <div class="modal-body">
+              <div class="form-group">
+                  <label for="users">Member</label>
+                  <input type="text" id="name" name="name" value="{{ $user->first_name }} {{ $user->last_name }}">
+              </div>
+              <div class="form-group">
+                  <label for="amount"><strong>Amount:</strong></label>
+                  <input type="text" name="amount" class="form-control" placeholder="Enter the amount" required value="{{ $contribution->amount }}">
+              </div>
+              <div class="form-group">
+                  <label for="date"><strong>Date:</strong></label>
+                  <input type="date" class="form-control" name="date" placeholder="Select the date" required value="{{ $contribution->date }}">
+              </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">Add Contribution</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div> --}}
+  {{-- End Edit Modal --}}
+
 <div class="content">
     <div class="block-header">
         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addcontribution">
@@ -62,7 +96,7 @@
                         <strong class="card-title">Contributions List <span class="badge badge-primary">{{$contributions->count() }}</strong>
                     </div>
                     <div class="card-body">
-                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -115,11 +149,11 @@
    <script src="{{ asset('assets/js/lib/data-table/buttons.print.min.js') }}"></script>
    <script src="{{ asset('assets/js/lib/data-table/buttons.colVis.min.js') }}"></script>
    <script src="{{ asset('assets/js/init/datatables-init.js') }}"></script>
-   <script type="text/javascript">
+   {{-- <script type="text/javascript">
        $(document).ready(function() {
          $('#bootstrap-data-table-export').DataTable();
      } );
- </script>
+ </script> --}}
    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>

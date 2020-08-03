@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Loan;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+
 
 class LoansController extends Controller
 {
@@ -14,7 +21,8 @@ class LoansController extends Controller
      */
     public function index()
     {
-        return view('admin.loans.index');
+        $loans = Loan::all();
+        return view('admin.loans.index', compact('loans'));
     }
 
     /**
@@ -35,7 +43,45 @@ class LoansController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'id_number' => 'required',
+            'phone_no' => 'required',
+            'email' => 'email',
+            'amount' => 'required',
+            'image' => 'required'
+        ]);
+        //get form image
+        $image = $request->file('image');
+        $slug = str_slug($request->id_number);
+        if(isset($image))
+        {
+            // make unique name for image
+            $currentDate = Carbon::now()->toDateString();
+            $imageName = $slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+            // check loan directory if it exists
+            if(!Storage::disk('public')->exists('loan'))
+            {
+                Storage::disk('public')->makeDirectory('loan');
+            }
+            // resize image for loan upload
+            $loan = Image::make($image)->resize(500,500)->stream();
+            Storage::disk('public')->put('loan/'.$imageName,$loan);
+        }else{
+            $imageName = "default.png";
+        }
+        $loan = new Loan();
+        $loan->first_name = $request->first_name;
+        $loan->last_name = $request->last_name;
+        $loan->id_number = $request->id_number;
+        $loan->phone_no = $request->phone_no;
+        $loan->email = $request->email;
+        $loan->amount = $request->amount;
+        $loan->image = $imageName;
+        $loan->save();
+        Toastr::success('Loan Request Successfully Submited','Success');
+        return redirect()->back();
     }
 
     /**
@@ -78,8 +124,14 @@ class LoansController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Loan $loan)
     {
-        //
+        if (Storage::disk('public')->exists('loan/'.$loan->image))
+        {
+            Storage::disk('public')->delete('loan/'.$loan->image);
+        }
+        $loan->delete();
+        Toastr::success('Loan Successfully Deleted', 'Success');
+        return redirect()->back();
     }
 }

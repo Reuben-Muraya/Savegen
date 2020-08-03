@@ -88,9 +88,23 @@ class ContributionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Contribution $contribution)
     {
-        //
+        $this->validate($request,[
+            'amount' => 'required',
+            'date' => 'required',
+            'users' => 'required'
+        ]);
+
+        $contribution->amount = $request->amount;
+        $contribution->date = $request->date;
+        $contribution->save();
+        
+        $contribution->users()->sync($request->users);
+        
+
+        Toastr::success('Contribution Successfully Updated','Success');
+        return redirect()->back();
     }
 
     /**

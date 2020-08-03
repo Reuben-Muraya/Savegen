@@ -17,7 +17,7 @@
             [10, 25, 50, -1],
             [10, 25, 50, "All"]
         ],
-        buttons: ["copy", "excel", "pdf", "print"]
+        buttons: ["excel", "pdf", "print", "colvis"]
     });
 
     $("#row-select").DataTable({
