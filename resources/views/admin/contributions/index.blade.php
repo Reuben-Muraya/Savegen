@@ -59,42 +59,42 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Contributions List <span class="badge badge-primary"></strong>
+                        <strong class="card-title">Contributions List <span class="badge badge-primary">{{$contributions->count() }}</strong>
                     </div>
                     <div class="card-body">
-                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                        <table id="bootstrap-data-table" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    {{-- <th>ID Number</th>
-                                    <th>Phone No.</th> --}}
                                     <th>Amount</th>
                                     <th>Date</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                               @foreach ($contributions as $key=>$contribution)
-                                <tbody>
-                                    <td>{{ $key + 1 }}</td>
-                                  <td>
-                                      @foreach ($contribution->users as $user)
-                                          {{ $user->first_name }} {{ $user->last_name }}
-                                      @endforeach
-                                  </td>
-                                  <td>{{ $contribution->amount }}</td>
-                                  <td>{{ $contribution->date }}</td>
-                                  <td class="text-center">
-                                      <p-button class="btn btn-danger" type="submit" style='background-color: transparent; border: none' onclick="deleteContribution({{ $contribution->id }})">
-                                        <i style='color:red' class="fa fa-trash-o" [ngClass]="{'active': pinned}"></i>
-                                      </p-button>
-                                      <form id="delete-form-{{ $contribution->id }}" action="{{ route('contributions.destroy',$contribution->id) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                  </td>
-                                </tbody> 
-                               @endforeach
+                            <tbody>
+                                    @foreach ($contributions as $key=>$contribution)
+                                      <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>
+                                           @foreach ($contribution->users as $user)
+                                            {{ $user->first_name }} {{ $user->last_name }}
+                                           @endforeach
+                                        </td>
+                                        <td>Ksh {{ $contribution->amount }}</td>
+                                        <td>{{ $contribution->date }}</td>
+                                        <td class="text-center">
+                                           <p-button class="btn btn-danger" type="submit" style='background-color: transparent; border: none' onclick="deleteContribution({{ $contribution->id }})">
+                                             <i style='color:red' class="fa fa-trash-o" [ngClass]="{'active': pinned}"></i>
+                                           </p-button>
+                                           <form id="delete-form-{{ $contribution->id }}" action="{{ route('contributions.destroy',$contribution->id) }}" method="POST" style="display: none;">
+                                             @csrf
+                                             @method('DELETE')
+                                           </form>
+                                         </td>
+                                      </tr>
+                                    @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
 @endsection
 
 @push('js')
-   <script src="{{ asset('assets/js/lib/data-table/datatables.min.js') }}"></script>
+<script src="{{ asset('assets/js/lib/data-table/datatables.min.js') }}"></script>
    <script src="{{ asset('assets/js/lib/data-table/dataTables.bootstrap.min.js') }}"></script>
    <script src="{{ asset('assets/js/lib/data-table/dataTables.buttons.min.js') }}"></script>
    <script src="{{ asset('assets/js/lib/data-table/buttons.bootstrap.min.js') }}"></script>
@@ -115,17 +115,19 @@
    <script src="{{ asset('assets/js/lib/data-table/buttons.print.min.js') }}"></script>
    <script src="{{ asset('assets/js/lib/data-table/buttons.colVis.min.js') }}"></script>
    <script src="{{ asset('assets/js/init/datatables-init.js') }}"></script>
+   <script type="text/javascript">
+       $(document).ready(function() {
+         $('#bootstrap-data-table-export').DataTable();
+     } );
+ </script>
    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
    
+  
    <script type="text/javascript">
-       $(document).ready(function() {
-         $('#bootstrap-data-table-export').DataTable();
-     } );
-
-     function deleteContribution(id) {
+        function deleteContribution(id) {
         Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -141,40 +143,6 @@
         }
         })
      }
-
-    // function deleteContribution(id) {
-    //             const swalWithBootstrapButtons = Swal.mixin({
-    //                 customClass: {
-    //                     confirmButton: 'btn btn-success' ,
-    //                     cancelButton: 'btn btn-danger'
-    //                 },
-    //                 buttonsStyling: false
-    //             })
-
-    //             swalWithBootstrapButtons.fire({
-    //                 title: 'Are you sure?',
-    //                 text: "You won't be able to revert this!",
-    //                 type: 'warning',
-    //                 showCancelButton: true,
-    //                 confirmButtonText: 'Yes, delete it!',
-    //                 cancelButtonText: 'No, cancel!',
-    //                 reverseButtons: true
-    //             }).then((result) => {
-    //                 if (result.value) {
-    //                 event.preventDefault();
-    //                 document.getElementById('delete-form-'+id).submit();
-    //             } else if (
-    //                     /* Read more about handling dismissals below */
-    //             result.dismiss === Swal.DismissReason.cancel
-    //             ) {
-    //                 swalWithBootstrapButtons.fire(
-    //                     'Cancelled',
-    //                     'Your data is safe',
-    //                     'error'
-    //                 )
-    //             }
-    //         });
-    //         }
- </script>
+   </script>
  
 @endpush
