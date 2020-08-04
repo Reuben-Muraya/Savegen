@@ -1,5 +1,5 @@
 @extends('layouts.backend.app')
-
+{{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
 @section('title', 'Loans')
 
 @push('css')
@@ -16,41 +16,41 @@
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Add Loan Request</h5>
         </div>
-        <form action="{{ route('loans.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="#" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="modal-body">
               <div class="form-group">
                   <label for="first_name"><strong>First Name:</strong></label>
-                  <input type="text" name="first_name" class="form-control" placeholder="Enter the First Name" required>
+                  <input type="text" name="first_name" id="first_name" class="form-control" placeholder="Enter the First Name" required>
               </div>
               <div class="form-group">
                   <label for="last_name"><strong>Last Name:</strong></label>
-                  <input type="text" name="last_name" class="form-control" placeholder="Enter the Last Name" required>
+                  <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Enter the Last Name" required>
               </div>
               <div class="form-group">
                   <label for="id_number"><strong>ID / Passport No:</strong></label>
-                  <input type="text" name="id_number" class="form-control" placeholder="Enter the ID / Passport No." required>
+                  <input type="text" name="id_number" id="id_number" class="form-control" placeholder="Enter the ID / Passport No." required>
               </div>
               <div class="form-group">
                   <label for="phone_no"><strong>Phone No:</strong></label>
-                  <input type="text" name="phone_no" class="form-control" placeholder="Phone No." required>
+                  <input type="text" name="phone_no" id="phone_no" class="form-control" placeholder="Phone No." required>
               </div>
               <div class="form-group">
                   <label for="email"><strong>Email Address:</strong></label>
-                  <input type="email" name="email" class="form-control" placeholder="Email Address">
+                  <input type="email" name="email" id="email" class="form-control" placeholder="Email Address">
               </div>
               <div class="form-group">
                   <label for="amount"><strong>Amount:</strong></label>
-                  <input type="text" name="amount" class="form-control" placeholder="Enter the amount" required>
+                  <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
               </div>
               <div class="form-group">
                   <label for="image"><strong>ID / Passport Image:</strong></label>
-                  <input type="file" name="image">
+                  <input type="file" name="image" id="image"> 
               </div>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success">Submit Request</button>
+            <button type="submit" class="btn btn-success" id="addloanRequest">Submit Request</button>
             </div>
         </form>
       </div>
@@ -61,53 +61,55 @@
 
 {{-- Start Edit Modal --}}
   
-{{-- <div class="modal fade" id="addloan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editloan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Loan Request</h5>
+          <h5 class="modal-title" id="exampleModalLabel"><strong>Edit Loan Request</strong></h5>
         </div>
-        <form action="{{ route('loans.update',$loans->id) }}" method="POST">
+        <form action="#" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="modal-body">
+                <input type="hidden" name="loan_id" id="loan_id">
               <div class="form-group">
                   <label for="first_name"><strong>First Name:</strong></label>
-                  <input type="text" name="first_name" class="form-control" placeholder="Enter the First Name" required value="{{ $laons->first_name }}">
+                  <input type="text" name="first_name" id="first_name" class="form-control" placeholder="Enter the First Name" required value="">
               </div>
               <div class="form-group">
                   <label for="last_name"><strong>Last Name:</strong></label>
-                  <input type="text" name="last_name" class="form-control" placeholder="Enter the Last Name" required value="{{ $laons->last_name }}">
+                  <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Enter the Last Name" required value="">
               </div>
               <div class="form-group">
                   <label for="id_number"><strong>ID / Passport No:</strong></label>
-                  <input type="text" name="id_number" class="form-control" placeholder="Enter the ID / Passport No." required value="{{ $laons->id_number }}">
+                  <input type="text" name="id_number" id="id_number" class="form-control" placeholder="Enter the ID / Passport No." required value="">
               </div>
               <div class="form-group">
                   <label for="phone_no"><strong>Phone No:</strong></label>
-                  <input type="text" name="phone_no" class="form-control" placeholder="Phone No." required value="{{ $laons->phone_no }}">
+                  <input type="text" name="phone_no" id="phone_no" class="form-control" placeholder="Phone No." required value="">
               </div>
               <div class="form-group">
                   <label for="email"><strong>Email Address:</strong></label>
-                  <input type="email" name="email" class="form-control" placeholder="Email Address" value="{{ $laons->email }}">
+                  <input type="email" name="email" id="email" class="form-control" placeholder="Email Address" value="">
               </div>
               <div class="form-group">
                   <label for="amount"><strong>Amount:</strong></label>
-                  <input type="text" name="amount" class="form-control" placeholder="Enter the amount" required value="{{ $laons->amount }}">
+                  <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required value="">
               </div>
               <div class="form-group">
                   <label for="image"><strong>ID / Passport Image:</strong></label>
-                  <input type="file" name="image">
+                  <input type="file" name="image" id="image">
+                  <span id="store_image"></span>
               </div>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success">Submit Request</button>
+            <button type="submit" class="btn btn-success">Update Loan Information</button>
             </div>
         </form>
       </div>
     </div>
-  </div> --}}
+  </div>
   
 {{-- End Edit Modal --}}
 
@@ -143,7 +145,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Image</th>
+                                        {{-- <th>ID Image</th> --}}
                                         <th>Name</th>
                                         <th>ID Number</th>
                                         <th>Phone No.</th>
@@ -157,7 +159,7 @@
                                    @foreach ($loans as $key=>$loan)
                                        <tr>
                                            <td>{{ $key + 1 }}</td>
-                                           <td><img class="user-avatar rounded-circle" src="{{ url('storage/loan/'.$loan->image) }}" width="100" height="100" alt="Loan Image"></td>
+                                           {{-- <td><img class="user-avatar rounded-circle" src="{{ url('storage/loan/'.$loan->image) }}" width="50" height="50" alt="Loan Image"></td> --}}
                                            <td>{{ $loan->first_name }} {{ $loan->last_name }}</td>
                                            <td>{{ $loan->id_number }}</td>
                                            <td>{{ $loan->phone_no }}</td>
@@ -166,7 +168,10 @@
                                            <td>Ksh {{ $loan->amount }}.00</td>
                                            <td class="text-center">
                                              <a href=""><i class="fa fa-eye" style="color: lime"></i></a> |
-                                             <a href=""><i class="fa fa-pencil" style="color: aqua"></i></a>  |
+                                             {{-- <p-button class="btn btn-info" type="submit"  data-toggle="modal" data-target="#editloan" style='background-color: transparent; border: none'>
+                                                <i style='color:aqua' class="fa fa-pencil" [ngClass]="{'active': pinned}"></i>
+                                              </p-button>  | --}}
+                                            <a href="#" data-toggle="modal" data-target="#editloan"><i class="fa fa-pencil" style="color: aqua"></i></a> |
                                             <p-button class="btn btn-danger" type="submit" style='background-color: transparent; border: none' onclick="deleteLoan({{ $loan->id }})">
                                               <i style='color:red' class="fa fa-trash-o" [ngClass]="{'active': pinned}"></i>
                                             </p-button>
@@ -227,5 +232,35 @@
      }
      })
   }
+
+  jQuery(document).ready(function(){
+            jQuery('#addloanRequest').click(function(e){
+               e.preventDefault();
+               $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                  }
+              });
+               jQuery.ajax({
+                  url: "{{ route('loans.store') }}",
+                  method: 'post',
+                  type: "POST"
+                  data: {
+                    first_name: jQuery('#first_name').val(),
+                    last_name: jQuery('#last_name').val(),
+                    id_number: jQuery('#id_number').val(),
+                    phone_no: jQuery('#phone_no').val(),
+                    email: jQuery('#email').val(),
+                    amount: jQuery('#amount').val(),
+                    image: jQuery('#image').val()
+                  },
+                  success: function(result){
+                     jQuery('.alert').show();
+                     jQuery('.alert').html(result.success);
+                  }});
+               });
+            });
+
+            
 </script>
 @endpush

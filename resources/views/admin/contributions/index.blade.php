@@ -49,27 +49,27 @@
 {{-- End Add Modal --}}
 
   {{-- Start Edit Modal1 --}}
-  {{-- <div class="modal fade" id="updatecontribution" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="updatecontribution" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Update Contribution</h5>
         </div>
-        <form action="{{ route('contributions.update',$contributions->id) }}" method="POST">
+        <form action="" method="POST">
             @csrf
             @method('PUT')
             <div class="modal-body">
               <div class="form-group">
-                  <label for="users">Member</label>
-                  <input type="text" id="name" name="name" value="{{ $user->first_name }} {{ $user->last_name }}">
+                  <label for="users"><strong>Member:</strong></label>
+                  <input type="text" id="name" name="name" class="form-control" value="">
               </div>
               <div class="form-group">
                   <label for="amount"><strong>Amount:</strong></label>
-                  <input type="text" name="amount" class="form-control" placeholder="Enter the amount" required value="{{ $contribution->amount }}">
+                  <input type="text" name="amount" class="form-control" placeholder="Enter the amount" required value="">
               </div>
               <div class="form-group">
                   <label for="date"><strong>Date:</strong></label>
-                  <input type="date" class="form-control" name="date" placeholder="Select the date" required value="{{ $contribution->date }}">
+                  <input type="date" class="form-control" name="date" placeholder="Select the date" required value="">
               </div>
             </div>
             <div class="modal-footer">
@@ -79,7 +79,7 @@
         </form>
       </div>
     </div>
-  </div> --}}
+  </div>
   {{-- End Edit Modal --}}
 
 <div class="content">
@@ -118,6 +118,9 @@
                                         <td>Ksh {{ $contribution->amount }}</td>
                                         <td>{{ $contribution->date }}</td>
                                         <td class="text-center">
+                                           <p-button class="btn btn-info" type="submit" data-toggle="modal" data-target="#updatecontribution" style='background-color: transparent; border: none'>
+                                             <i style='color:aqua' class="fa fa-pencil" [ngClass]="{'active': pinned}"></i>
+                                           </p-button> |
                                            <p-button class="btn btn-danger" type="submit" style='background-color: transparent; border: none' onclick="deleteContribution({{ $contribution->id }})">
                                              <i style='color:red' class="fa fa-trash-o" [ngClass]="{'active': pinned}"></i>
                                            </p-button>
