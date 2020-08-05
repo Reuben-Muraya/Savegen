@@ -43,6 +43,7 @@ class LoansController extends Controller
      */
     public function store(Request $request)
     {
+        
         $this->validate($request,[
             'first_name' => 'required',
             'last_name' => 'required',
@@ -50,7 +51,7 @@ class LoansController extends Controller
             'phone_no' => 'required',
             'email' => 'email',
             'amount' => 'required',
-            'image' => 'required'
+            // 'image' => 'required'
         ]);
         //get form image
         $image = $request->file('image');
@@ -79,9 +80,23 @@ class LoansController extends Controller
         $loan->email = $request->email;
         $loan->amount = $request->amount;
         $loan->image = $imageName;
-        $loan->save();
-        Toastr::success('Loan Request Successfully Submited','Success');
-        return redirect()->back();
+
+    
+        if($loan->save()){
+            $response = [
+                'status' =>true,
+                'message'=>'Loan Request Successfully Submited',
+            ];
+        }else{
+            $response = [
+                'status' =>false,
+                'message'=>'Loan reqest not submitted',
+            ];
+        }
+    
+        echo json_encode($response); exit;  
+        // Toastr::success('Loan Request Successfully Submited','Success');
+        // return redirect()->back();
     }
 
     /**

@@ -16,7 +16,7 @@
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Add Loan Request</h5>
         </div>
-        <form action="#" method="POST" enctype="multipart/form-data">
+        <form action="#" method="POST" id="addloan-form" enctype="multipart/form-data">
             @csrf
             <div class="modal-body">
               <div class="form-group">
@@ -61,7 +61,7 @@
 
 {{-- Start Edit Modal --}}
   
-<div class="modal fade" id="editloan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="editloan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -109,7 +109,7 @@
         </form>
       </div>
     </div>
-  </div>
+  </div> --}}
   
 {{-- End Edit Modal --}}
 
@@ -234,33 +234,52 @@
   }
 
   jQuery(document).ready(function(){
-            jQuery('#addloanRequest').click(function(e){
+             jQuery('#addloan-form').submit(function(e){
                e.preventDefault();
                $.ajaxSetup({
                   headers: {
-                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                   }
               });
                jQuery.ajax({
                   url: "{{ route('loans.store') }}",
                   method: 'post',
-                  type: "POST"
-                  data: {
-                    first_name: jQuery('#first_name').val(),
-                    last_name: jQuery('#last_name').val(),
-                    id_number: jQuery('#id_number').val(),
-                    phone_no: jQuery('#phone_no').val(),
-                    email: jQuery('#email').val(),
-                    amount: jQuery('#amount').val(),
-                    image: jQuery('#image').val()
-                  },
+                  type: "POST",
+                  data:$(this).serialize(),
+                //   data: {
+                //     first_name: jQuery('#first_name').val(),
+                //     last_name: jQuery('#last_name').val(),
+                //     id_number: jQuery('#id_number').val(),
+                //     phone_no: jQuery('#phone_no').val(),
+                //     email: jQuery('#email').val(),
+                //     amount: jQuery('#amount').val(),
+                //     image: jQuery('#image').val()
+                //   },
                   success: function(result){
-                     jQuery('.alert').show();
-                     jQuery('.alert').html(result.success);
+                    //  console.log(result);
+                    //  jQuery('.alert').show();
+                    // var r = JSON.parse(result);
+                    //  alert(r.message);
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    onOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                    })
+
+                    Toast.fire({
+                    icon: 'success',
+                    title: 'Laon Request Submitted successfully'
+                    });
+                    setInterval('location.reload()', 1000);
                   }});
                });
             });
-
             
 </script>
 @endpush
