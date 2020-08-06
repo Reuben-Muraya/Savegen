@@ -33,7 +33,7 @@
                         <span class="currency float-left mr-1">Ksh</span>
                         <span class="count">{{ $all_contributions }}</span>
                     </h3>
-                    <p class="text-light mt-1 m-0">Contributions Total</p>
+                    <p class="text-light mt-1 m-0">Total Contributions</p>
                 </div><!-- /.card-left -->
 
                 <div class="card-right float-right text-right">
@@ -67,7 +67,7 @@
                         <span class="currency float-left mr-1">Ksh</span>
                          <span class="count">{{ $all_loans }}</span>
                      </h3>
-                     <p class="text-light mt-1 m-0">Loans Given</p>
+                     <p class="text-light mt-1 m-0">Loans Given Amount</p>
                  </div><!-- /.card-left -->
                  <div class="card-right float-right text-right">
                      <i class="icon fade-5 icon-lg pe-7s-cash"></i>

@@ -10,11 +10,11 @@
 
 {{-- Start Add Modal --}}
   
-<div class="modal fade" id="addloan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Loan Request</h5>
+          <h5 class="modal-title" id="myModalLabel">Add Loan Request</h5>
         </div>
         <form action="#" method="POST" id="addloan-form" enctype="multipart/form-data">
             @csrf
@@ -117,7 +117,7 @@
     <div class="content">
         <div class="container-fluid row">
             <div class="block-header">
-                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addloan">
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
                     <span><i class="fa fa-plus"></i> Add Loan Request</span>
                 </button>
             </div> 
@@ -145,7 +145,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        {{-- <th>ID Image</th> --}}
+                                        <th>ID Image</th>
                                         <th>Name</th>
                                         <th>ID Number</th>
                                         <th>Phone No.</th>
@@ -159,7 +159,7 @@
                                    @foreach ($loans as $key=>$loan)
                                        <tr>
                                            <td>{{ $key + 1 }}</td>
-                                           {{-- <td><img class="user-avatar rounded-circle" src="{{ url('storage/loan/'.$loan->image) }}" width="50" height="50" alt="Loan Image"></td> --}}
+                                           <td><img class="user-avatar rounded-circle" src="{{ url('storage/loan/'.$loan->image) }}" width="50" height="50" alt="Loan Image"></td>
                                            <td>{{ $loan->first_name }} {{ $loan->last_name }}</td>
                                            <td>{{ $loan->id_number }}</td>
                                            <td>{{ $loan->phone_no }}</td>
@@ -245,7 +245,11 @@
                   url: "{{ route('loans.store') }}",
                   method: 'post',
                   type: "POST",
-                  data:$(this).serialize(),
+                  enctype: 'multipart/form-data',
+                  data: new FormData(this),
+                  processData: false,
+                  contentType: false,
+                //   data:$(this).serialize(),
                 //   data: {
                 //     first_name: jQuery('#first_name').val(),
                 //     last_name: jQuery('#last_name').val(),
@@ -277,7 +281,14 @@
                     title: 'Laon Request Submitted successfully'
                     });
                     setInterval('location.reload()', 1000);
-                  }});
+                  },
+                  error: function(result){
+                    //   console.log(result);
+                    //   jQuery('.alert').show();
+                    //   var r = JSON.parse(result);
+                    //   alert(r.message);
+                  }
+                  });
                });
             });
             
