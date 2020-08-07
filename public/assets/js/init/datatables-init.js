@@ -13,11 +13,30 @@
 
     $("#bootstrap-data-table-export").DataTable({
         dom: "lBfrtip",
-        lengthMenu: [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        buttons: ["excel", "pdf", "print", "colvis"]
+        // dom: "Blfrtip",
+        buttons: [
+            {
+                extend: "excel",
+                text: "Excel",
+                className: "btn btn-success",
+                style: "padding: 0px"
+            },
+            {
+                extend: "pdf",
+                text: "PDF",
+                className: "btn btn-danger"
+            },
+            {
+                extend: "print",
+                text: "Print",
+                className: "btn btn-info"
+            },
+            {
+                extend: "colvis",
+                text: "Column Select",
+                className: "btn btn-primary"
+            }
+        ]
     });
 
     $("#row-select").DataTable({

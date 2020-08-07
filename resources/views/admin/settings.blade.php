@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="col-lg-6">
-       <div class="card">
+       {{-- <div class="card">
            <div class="card-header text-center">
              <strong><i class="fa fa-user"></i>  Profile</strong>
            </div>
@@ -102,7 +102,33 @@
 
             </div>
             </div>
-       </div>
+       </div> --}}
+       <div class="card">
+        <div class="card-header">
+            <i class="fa fa-user"></i><strong class="card-title pl-2">Profile Card</strong>
+        </div>
+        <div class="card-body">
+            <div class="mx-auto d-block">
+                <img class="rounded-circle mx-auto d-block" src="{{ url('storage/profile/'.Auth::user()->image) }}" width="120" height="120" alt="Card image cap">
+                <h2 class="text-sm-center mt-2 mb-1">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h2>
+            </div>
+            <hr>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <span class="badge badge-primary"><i class="fa  fa-envelope"></i> </span><span class="pull-right">{{ Auth::user()->email }}</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="badge badge-success"><i class="fa fa-phone"></i></span> <span class="pull-right">{{ Auth::user()->phone_no }}</span></a>
+                </li>
+                <li class="list-group-item">
+                    <span class="badge badge-dark"><i class="fa fa-id-card"></i></span> <span class="pull-right">{{ Auth::user()->id_number }}</span></a>
+                </li>
+                <li class="list-group-item">
+                    <span class="badge badge-warning"><i class="fa fa-comment"></i></span> <span class="pull-right">{{ Auth::user()->about }}</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
     </div>
 </div>
 @endsection

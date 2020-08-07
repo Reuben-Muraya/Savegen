@@ -18,7 +18,7 @@ class ContributionsController extends Controller
     public function index()
     {
         $users = User::all();
-        $contributions = Contribution::all();
+        $contributions = Contribution::latest()->get();
         return view('admin.contributions.index', compact('users', 'contributions'));
     }
 
@@ -54,9 +54,21 @@ class ContributionsController extends Controller
         
         $contribution->users()->attach($request->users);
         
+        if($contribution->save()){
+            $response = [
+                'status' =>true,
+                'message'=>'Contribution Successfully Submited',
+            ];
+        }else{
+            $response = [
+                'status' =>false,
+                'message'=>'Contribution not submitted',
+            ];
+        }
 
-        Toastr::success('Contribution Added Successfully','Success');
-        return redirect()->back();
+        // echo json_encode($response); exit;  
+        // Toastr::success('Contribution Added Successfully','Success');
+        // return redirect()->back();
     }
 
     /**
@@ -120,7 +132,20 @@ class ContributionsController extends Controller
         
         $contributions->delete();
 
-        Toastr::success('Contribution Successfully Deleted', 'Success');
+        // if($contributions->delete()){
+        //     $response = [
+        //         'status' =>true,
+        //         'message'=>'Contribution Successfully Deleted',
+        //     ];
+        // }else{
+        //     $response = [
+        //         'status' =>false,
+        //         'message'=>'Contribution not Deleted',
+        //     ];
+        // }
+        // echo json_encode($response); exit;  
+
+        // Toastr::success('Contribution Successfully Deleted', 'Success');
         return redirect()->back();
     }
 }

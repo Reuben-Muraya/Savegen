@@ -20,19 +20,19 @@
             @csrf
             <div class="modal-body">
               <div class="form-group">
-                  <label for="first_name"><strong>First Name: <span style="color: red">*</span></strong></label>
+                  <label for="first_name"><strong>First Name:</strong></label>
                   <input type="text" name="first_name" class="form-control" placeholder="Enter the First Name" required>
               </div>
               <div class="form-group">
-                  <label for="last_name"><strong>Last Name: <span style="color: red">*</span></strong></label>
+                  <label for="last_name"><strong>Last Name:</strong></label>
                   <input type="text" name="last_name" class="form-control" placeholder="Enter the Last Name" required>
               </div>
               <div class="form-group">
-                  <label for="id_number"><strong>ID / Passport No: <span style="color: red">*</span></strong></label>
+                  <label for="id_number"><strong>ID / Passport No:</strong></label>
                   <input type="text" name="id_number" class="form-control" placeholder="Enter the ID / Passport No." required>
               </div>
               <div class="form-group">
-                  <label for="phone_no"><strong>Phone No: <span style="color: red">*</span></strong></label>
+                  <label for="phone_no"><strong>Phone No:</strong></label>
                   <input type="text" name="phone_no" class="form-control" placeholder="Phone No." required>
               </div>
               <div class="form-group">
@@ -40,7 +40,7 @@
                   <input type="email" name="email" class="form-control" placeholder="Email Address">
               </div>
               <div class="form-group">
-                  <label for="amount"><strong>Amount: <span style="color: red">*</span></strong></label>
+                  <label for="amount"><strong>Amount:</strong></label>
                   <input type="text" name="amount" class="form-control" placeholder="Enter the amount" required>
               </div>
               <div class="form-group">
@@ -61,7 +61,7 @@
 
 {{-- Start Edit Modal --}}
   
-{{-- <div class="modal fade" id="edit-loan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="edit-loan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -109,7 +109,7 @@
         </form>
       </div>
     </div>
-  </div> --}}
+  </div>
   
 {{-- End Edit Modal --}}
 
@@ -123,9 +123,8 @@
             </div> 
 
             <div class="block-header">
-                <a href="{{ route('loans.status') }}" class="btn btn-success btn-sm" type="submit">
+                <a href="{{ route('loans.status') }}" class="btn btn-success btn-sm">
                     <span><i class="fa fa-thumbs-up"></i> Paid Loans</span>
-                    
                 </a>
             </div> 
             <div class="block-header">
@@ -139,7 +138,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <strong class="card-title">Active Loans List <span class="badge badge-primary">{{$loans->count() }}</span></strong>
+                            <strong class="card-title">Paid Loans List <span class="badge badge-primary">{{$loans->count() }}</span></strong>
                         </div>
                         <div class="card-body">
                             <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
@@ -169,12 +168,11 @@
                                            <td>Ksh {{ $loan->amount }}.00</td>
                                            <td class="text-center">
                                              <a href="{{ route('loans.show',$loan->id) }}"><i class="fa fa-eye" style="color: navy"></i></a> |
-                                             <a href=""><i class="fa fa-check-circle" style="color: lime"></i></a> |
+                                             {{-- <a href=""><i class="fa fa-check-circle" style="color: lime"></i></a> | --}}
                                              {{-- <p-button class="btn btn-info" type="submit"  data-toggle="modal" data-target="#editloan" style='background-color: transparent; border: none'>
                                                 <i style='color:aqua' class="fa fa-pencil" [ngClass]="{'active': pinned}"></i>
                                               </p-button>  | --}}
                                             <a href="#" data-toggle="modal" data-target="#edit-loan"><i class="fa fa-pencil" style="color: aqua"></i></a> |
-                                            <a href="#" ><i class="fa fa-exclamation-triangle" style="color: maroon"></i></a> |
                                             <p-button class="btn btn-danger" type="submit" style='background-color: transparent; border: none' onclick="deleteLoan({{ $loan->id }})">
                                               <i style='color:red' class="fa fa-trash-o" [ngClass]="{'active': pinned}"></i>
                                             </p-button>
@@ -232,14 +230,8 @@
      if (result.value) {
          event.preventDefault();
          document.getElementById('delete-form-'+id).submit();
-         Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-          )
      }
-     setInterval('location.reload()', 1000);
-     });
+     })
   }
 
   jQuery(document).ready(function(){
@@ -291,28 +283,27 @@
                     });
                     setInterval('location.reload()', 1000);
                   },
-                  error: function(request, status, error){
+                  error: function(result){
                     //   console.log(result);
                     //   jQuery('.alert').show();
                     //   var r = JSON.parse(result);
                     //   alert(r.message);
-                    alert(request.responseText);
                   }
                   });
                });
             });
 
-            // $('modal-body').on('click', '#edit-loan', function(){
-            //     var loan_id = $(this).data('id');
-            //     $.get('loans/'+loan_id+'/edit', function(data){
-            //         $('#first_name').val(data.first_name);
-            //         $('#last_name').val(data.last_name);
-            //         $('#id_number').val(data.id_number);
-            //         $('#phone_no').val(data.phone_no);
-            //         $('#email').val(data.email);
-            //         $('#amount').val(data.amount);
-            //     })
-            // });
+            $('modal-body').on('click', '#edit-loan', function(){
+                var loan_id = $(this).data('id');
+                $.get('loans/'+loan_id+'/edit', function(data){
+                    $('#first_name').val(data.first_name);
+                    $('#last_name').val(data.last_name);
+                    $('#id_number').val(data.id_number);
+                    $('#phone_no').val(data.phone_no);
+                    $('#email').val(data.email);
+                    $('#amount').val(data.amount);
+                })
+            });
             
 </script>
 @endpush

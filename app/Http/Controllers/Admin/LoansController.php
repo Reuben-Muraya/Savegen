@@ -21,7 +21,7 @@ class LoansController extends Controller
      */
     public function index()
     {
-        $loans = Loan::latest()->get();
+        $loans = Loan::latest()->where('status', true)->get();
         return view('admin.loans.index', compact('loans'));
     }
 
@@ -67,7 +67,7 @@ class LoansController extends Controller
                 Storage::disk('public')->makeDirectory('loan');
             }
             // resize image for loan upload
-            $loan = Image::make($image)->resize(500,500)->stream();
+            $loan = Image::make($image)->resize(700,700)->stream();
             Storage::disk('public')->put('loan/'.$imageName,$loan);
         }else{
             $imageName = "default.png";
@@ -103,9 +103,9 @@ class LoansController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Loan $loan)
     {
-        //
+        return view('admin.loans.show', compact('loan'));
     }
 
     /**
@@ -136,7 +136,7 @@ class LoansController extends Controller
         //     'phone_no' => 'required',
         //     'email' => 'email',
         //     'amount' => 'required',
-        //     'image' => 'required'
+        //     // 'image' => 'required'
         // ]);
         // //get form image
         // $image = $request->file('image');
@@ -183,7 +183,32 @@ class LoansController extends Controller
             Storage::disk('public')->delete('loan/'.$loan->image);
         }
         $loan->delete();
-        Toastr::success('Loan Successfully Deleted', 'Success');
+
+        // if($loan->delete()){
+        //     $response = [
+        //         'status' =>true,
+        //         'message'=>'Loan Successfully Deleted',
+        //     ];
+        // }else{
+        //     $response = [
+        //         'status' =>false,
+        //         'message'=>'Loan not Deleted',
+        //     ];
+        // }
+        // // echo json_encode($response); exit; 
+        // Toastr::success('Loan Successfully Deleted', 'Success');
         return redirect()->back();
+    }
+
+    public function status()
+    {
+        $loans = Loan::where('status',false)->get();
+        return view('admin.loans.paid', compact('loans'));
+    }
+
+    public function defaulted()
+    {
+        $loans = Loan::where('status', 2)->get();
+        return view('admin.loans.defaulted', compact('loans'));
     }
 }

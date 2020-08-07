@@ -16,11 +16,11 @@
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Add Contribution</h5>
         </div>
-        <form action="{{ route('contributions.store') }}" method="POST">
+        <form action="#" id="addcontribution-form"  method="POST">
             @csrf
             <div class="modal-body">
               <div class="form-group">
-                  <label for="users">Select a member</label>
+                  <label for="users">Select a member <span style="color: red">*</span></label>
                   <select name="users[]" id="user" class="form-control" required>
                     {{-- <option value="">Select member</option> --}}
                       @foreach ($users as $user)
@@ -29,11 +29,11 @@
                   </select>
               </div>
               <div class="form-group">
-                  <label for="amount"><strong>Amount:</strong></label>
+                  <label for="amount"><strong>Amount: <span style="color: red">*</span></strong></label>
                   <input type="text" name="amount" class="form-control" placeholder="Enter the amount" required>
               </div>
               <div class="form-group">
-                  <label for="date"><strong>Date:</strong></label>
+                  <label for="date"><strong>Date: <span style="color: red">*</span></strong></label>
                   <input type="date" class="form-control" name="date" placeholder="Select the date" required>
               </div>
             </div>
@@ -49,7 +49,7 @@
 {{-- End Add Modal --}}
 
   {{-- Start Edit Modal1 --}}
-  <div class="modal fade" id="updatecontribution" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  {{-- <div class="modal fade" id="updatecontribution" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -79,7 +79,7 @@
         </form>
       </div>
     </div>
-  </div>
+  </div> --}}
   {{-- End Edit Modal --}}
 
 <div class="content">
@@ -93,7 +93,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Contributions List <span class="badge badge-primary">{{$contributions->count() }}</strong>
+                        <strong class="card-title">Contributions List <span class="badge badge-primary">{{$contributions->count() }}</span></strong>
                     </div>
                     <div class="card-body">
                         <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
@@ -177,9 +177,73 @@
         if (result.value) {
             event.preventDefault();
             document.getElementById('delete-form-'+id).submit();
+            Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
         }
-        })
+        });
      }
+
+     jQuery(document).ready(function(){
+             jQuery('#addcontribution-form').submit(function(e){
+               e.preventDefault();
+               $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+              });
+               jQuery.ajax({
+                  url: "{{ route('contributions.store') }}",
+                  method: 'post',
+                  type: "POST",
+                  // data: new FormData(this),
+                  // processData: false,
+                  // contentType: false,
+                  data:$(this).serialize(),
+                //   data: {
+                //     first_name: jQuery('#first_name').val(),
+                //     last_name: jQuery('#last_name').val(),
+                //     id_number: jQuery('#id_number').val(),
+                //     phone_no: jQuery('#phone_no').val(),
+                //     email: jQuery('#email').val(),
+                //     amount: jQuery('#amount').val(),
+                //     image: jQuery('#image').val()
+                //   },
+                  success: function(result){
+                    //  console.log(result);
+                    //  jQuery('.alert').show();
+                    // var r = JSON.parse(result);
+                    //  alert(r.message);
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    onOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                    })
+
+                    Toast.fire({
+                    icon: 'success',
+                    title: 'Contribution Submitted successfully'
+                    });
+                    setInterval('location.reload()', 1000);
+                  },
+                  error: function(request, status, error){
+                    //   console.log(result);
+                    //   jQuery('.alert').show();
+                    //   var r = JSON.parse(result);
+                    //   alert(r.message);
+                    alert(request.responseText);
+                  }
+                  });
+               });
+            });
    </script>
  
 @endpush

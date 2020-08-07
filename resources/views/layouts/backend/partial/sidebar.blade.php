@@ -12,7 +12,7 @@
                     <li class="{{ Request::is('admin/contributions*') ? 'active' : '' }}">
                         <a href="{{ route('contributions.index') }}"> <i class="menu-icon fa fa-plus-circle"></i>Contributions</a>
                     </li>
-                    <li class="{{ Request::is('admin/loans*') ? 'active' : '' }}">
+                    <li class="{{ Request::is('admin/loans*') ? 'active' : '' }} {{ Request::is('admin/status/loans*') ? 'active' : '' }} {{ Request::is('admin/defaulted/loans*') ? 'active' : '' }}">
                         <a href="{{ route('loans.index') }}"> <i class="menu-icon fa fa-credit-card"></i>Loans</a>
                     </li>
                     <li class="{{ Request::is('admin/projects*') ? 'active' : '' }}">
