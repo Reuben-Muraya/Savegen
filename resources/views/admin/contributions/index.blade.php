@@ -14,7 +14,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Contribution</h5>
+          <h5 class="modal-title" id="exampleModalLabel"><strong>Add Contribution</strong></h5>
         </div>
         <form action="#" id="addcontribution-form"  method="POST">
             @csrf
@@ -182,6 +182,7 @@
             'Your file has been deleted.',
             'success'
           )
+          setInterval('location.reload()', 1000);
         }
         });
      }

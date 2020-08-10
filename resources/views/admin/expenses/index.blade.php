@@ -1,21 +1,22 @@
 @extends('layouts.backend.app')
 
-@section('title', 'Projects')
+@section('title', 'Expenses')
 
 @push('css')
 
 @endpush
 
 @section('content')
+
 {{-- Start Add Modal --}}
   
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="myModalLabel"><strong>Add Project</strong></h5>
+          <h5 class="modal-title" id="myModalLabel"><strong>Add Expense</strong></h5>
         </div>
-        <form action="#" method="POST" id="addproject-form" enctype="multipart/form-data">
+        <form action="#" method="POST" id="addexpense-form" enctype="multipart/form-data">
             @csrf
             <div class="modal-body">
               <div class="form-group">
@@ -23,29 +24,17 @@
                   <input type="text" name="description" class="form-control" placeholder="Enter the description" required>
               </div>
               <div class="form-group">
-                  <label for="deal_value"><strong>Deal Value: </strong></label>
-                  <input type="text" name="deal_value" class="form-control" placeholder="Enter the Deal Value" >
-              </div>
-              {{-- <div class="form-group">
-                  <label for="deal_expense"><strong>Deal Expense: </strong></label>
-                  <input type="text" name="deal_expense" class="form-control" placeholder="Enter the Deal Expense">
+                  <label for="amount"><strong>Amount: <span style="color: red">*</span></strong></label>
+                  <input type="text" name="amount" class="form-control" placeholder="Enter the Amount" required>
               </div>
               <div class="form-group">
-                  <label for="deal_expense"><strong>Deal Profit: </strong></label>
-                  <input type="text" name="deal_profit" class="form-control" placeholder="Enter the Deal Profit">
-              </div> --}}
-              <div class="form-group">
-                <label for="start_date"><strong>Date: </strong></label>
-                <input type="date" class="form-control" name="start_date" placeholder="Select the start date">
-            </div>
-              <div class="form-group">
-                  <label for="image"><strong>Project Files:</strong></label>
+                  <label for="image"><strong>ID / Passport Image:</strong></label>
                   <input type="file" name="image"> 
               </div>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success" id="addproject">Submit Project</button>
+            <button type="submit" class="btn btn-success" id="addexpense">Submit Expense</button>
             </div>
         </form>
       </div>
@@ -57,7 +46,7 @@
 <div class="content">
     <div class="block-header">
         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-            <span><i class="fa fa-plus"></i> Add Project</span>
+            <span><i class="fa fa-plus"></i> Add Expense</span>
         </button>
     </div>
     <div class="animated fadeIn">
@@ -65,7 +54,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Project List <span class="badge badge-primary">{{$projects->count() }}</span></strong>
+                        <strong class="card-title">Expenses List <span class="badge badge-primary">{{$expenses->count() }}</span></strong>
                     </div>
                     <div class="card-body">
                         <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
@@ -73,38 +62,32 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Description</th>
-                                    <th>Deal Value</th>
-                                    {{-- <th>Deal Expense</th>
-                                    <th>Deal Profit</th> --}}
-                                    <th>Start Date</th>
+                                    <th>Amount</th>
                                     <th>Image</th>
+                                    <th>Date</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($projects as $key=>$project)
+                                @foreach ($expenses as $key=>$expense)
                                 <tr>
-                                   <td>{{ $key + 1 }}</td>
-                                   <td>{{ $project->description }}</td>
-                                   <td>Ksh {{ $project->deal_value }}</td>
-                                   <td>{{ $project->start_date }}</td>
-                                   {{-- <td></td>
-                                   <td></td>
-                                   <td></td>
-                                   <td></td> --}}
-                                   <td><img class="user-avatar rounded-circle" src="{{ url('storage/project/'.$project->image) }}" width="50" height="50" alt="Project Image"></td>
-                                   <td class="text-center">
-                                    <p-button class="btn btn-info" type="submit" data-toggle="modal" data-target="#updateproject" style='background-color: transparent; border: none'>
-                                      <i style='color:aqua' class="fa fa-pencil" [ngClass]="{'active': pinned}"></i>
-                                    </p-button> |
-                                    <p-button class="btn btn-danger" type="submit" style='background-color: transparent; border: none' onclick="deleteProject({{ $project->id }})">
-                                      <i style='color:red' class="fa fa-trash-o" [ngClass]="{'active': pinned}"></i>
-                                    </p-button>
-                                    <form id="delete-form-{{ $project->id }}" action="{{ route('projects.destroy',$project->id) }}" method="POST" style="display: none;">
-                                      @csrf
-                                      @method('DELETE')
-                                    </form>
-                                  </td>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $expense->description }}</td>
+                                    <td>Ksh {{ $expense->amount }}</td>
+                                    <td><img class="user-avatar rounded-circle" src="{{ url('storage/expense/'.$expense->image) }}" width="50" height="50" alt="Expense Image"></td>
+                                    <td>{{ $expense->created_at }}</td>
+                                    <td class="text-center">
+                                        <p-button class="btn btn-info" type="submit" data-toggle="modal" data-target="#updatecontribution" style='background-color: transparent; border: none'>
+                                          <i style='color:aqua' class="fa fa-pencil" [ngClass]="{'active': pinned}"></i>
+                                        </p-button> |
+                                        <p-button class="btn btn-danger" type="submit" style='background-color: transparent; border: none' onclick="deleteExpense({{ $expense->id }})">
+                                          <i style='color:red' class="fa fa-trash-o" [ngClass]="{'active': pinned}"></i>
+                                        </p-button>
+                                        <form id="delete-form-{{ $expense->id }}" action="{{ route('expenses.destroy',$expense->id) }}" method="POST" style="display: none;">
+                                          @csrf
+                                          @method('DELETE')
+                                        </form>
+                                      </td>
                                  </tr>
                                 @endforeach
                             </tbody>
@@ -138,7 +121,7 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
    <script type="text/javascript">
-    function deleteProject(id) {
+    function deleteExpense(id) {
     Swal.fire({
     title: 'Are you sure?',
     text: "You won't be able to revert this!",
@@ -162,7 +145,7 @@
  }
 
 jQuery(document).ready(function(){
-            jQuery('#addproject-form').submit(function(e){
+            jQuery('#addexpense-form').submit(function(e){
               e.preventDefault();
               $.ajaxSetup({
                  headers: {
@@ -170,7 +153,7 @@ jQuery(document).ready(function(){
                  }
              });
               jQuery.ajax({
-                 url: "{{ route('projects.store') }}",
+                 url: "{{ route('expenses.store') }}",
                  method: 'post',
                  type: "POST",
                  enctype: 'multipart/form-data',
@@ -194,7 +177,7 @@ jQuery(document).ready(function(){
 
                    Toast.fire({
                    icon: 'success',
-                   title: 'Project Submitted successfully'
+                   title: 'Expense Submitted successfully'
                    });
                    setInterval('location.reload()', 1000);
                  },

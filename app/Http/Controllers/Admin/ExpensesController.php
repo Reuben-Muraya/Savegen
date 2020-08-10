@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Project;
+use App\Expense;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
-class ProjectsController extends Controller
+class ExpensesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +19,8 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = Project::latest()->get();
-        return view('admin.projects.index', compact('projects'));
+        $expenses = Expense::latest()->get();
+        return view('admin.expenses.index', compact('expenses'));
     }
 
     /**
@@ -43,48 +43,42 @@ class ProjectsController extends Controller
     {
         $this->validate($request,[
             'description' => 'required',
-            'deal_value' => '',
-            'deal_expense' => '',
-            'deal_profit' => '',
-            'start_date' => ''
+            'amount' => 'required',
             // 'image' => 'required'
         ]);
         //get form image
         $image = $request->file('image');
-        $slug = Str::slug($request->deal_value);
+        $slug = Str::slug($request->amount);
         if(isset($image))
         {
             // make unique name for image
             $currentDate = Carbon::now()->toDateString();
             $imageName = $slug.'-'.$currentDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
-            // check project directory if it exists
-            if(!Storage::disk('public')->exists('project'))
+            // check expense directory if it exists
+            if(!Storage::disk('public')->exists('expense'))
             {
-                Storage::disk('public')->makeDirectory('project');
+                Storage::disk('public')->makeDirectory('expense');
             }
-            // resize image for Project upload
-            $project = Image::make($image)->resize(700,700)->stream();
-            Storage::disk('public')->put('project/'.$imageName,$project);
+            // resize image for Expense upload
+            $expense = Image::make($image)->resize(700,700)->stream();
+            Storage::disk('public')->put('expense/'.$imageName,$expense);
         }else{
             $imageName = "default.png";
         }
-        $project = new Project();
-        $project->description = $request->description;
-        $project->deal_value = $request->deal_value;
-        $project->deal_expense = $request->deal_expense;
-        $project->deal_profit = $request->deal_profit;
-        $project->start_date = $request->start_date;
-        $project->image = $imageName;
+        $expense = new Expense();
+        $expense->description = $request->description;
+        $expense->amount = $request->amount;
+        $expense->image = $imageName;
     
-        if($project->save()){
+        if($expense->save()){
             $response = [
                 'status' =>true,
-                'message'=>'Project Successfully Submited',
+                'message'=>'Expense Successfully Submited',
             ];
         }else{
             $response = [
                 'status' =>false,
-                'message'=>'Project not submitted',
+                'message'=>'Expense not submitted',
             ];
         }
         // echo json_encode($response); exit; 
@@ -130,27 +124,27 @@ class ProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy(Expense $expense)
     {
-        if (Storage::disk('public')->exists('project/'.$project->image))
+        if (Storage::disk('public')->exists('expense/'.$expense->image))
         {
-            Storage::disk('public')->delete('project/'.$project->image);
+            Storage::disk('public')->delete('expense/'.$expense->image);
         }
-        $project->delete();
+        $expense->delete();
 
-        // if($loan->delete()){
+        // if($expense->delete()){
         //     $response = [
         //         'status' =>true,
-        //         'message'=>'Project Successfully Deleted',
+        //         'message'=>'Expense Successfully Deleted',
         //     ];
         // }else{
         //     $response = [
         //         'status' =>false,
-        //         'message'=>'Project not Deleted',
+        //         'message'=>'Expense not Deleted',
         //     ];
         // }
         // // echo json_encode($response); exit; 
-        // Toastr::success('Project Successfully Deleted', 'Success');
+        // Toastr::success('Expense Successfully Deleted', 'Success');
         return redirect()->back();
     }
 }

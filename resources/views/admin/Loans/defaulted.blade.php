@@ -14,7 +14,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="myModalLabel">Add Loan Request</h5>
+          <h5 class="modal-title" id="myModalLabel"><strong>Add Loan Request</strong></h5>
         </div>
         <form action="#" method="POST" id="addloan-form" enctype="multipart/form-data">
             @csrf
@@ -230,6 +230,12 @@
      if (result.value) {
          event.preventDefault();
          document.getElementById('delete-form-'+id).submit();
+         Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+          setInterval('location.reload()', 1000);
      }
      })
   }

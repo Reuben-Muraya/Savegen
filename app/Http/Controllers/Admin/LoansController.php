@@ -55,7 +55,7 @@ class LoansController extends Controller
         ]);
         //get form image
         $image = $request->file('image');
-        $slug = str_slug($request->id_number);
+        $slug = Str::slug($request->id_number);
         if(isset($image))
         {
             // make unique name for image
