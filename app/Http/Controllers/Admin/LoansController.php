@@ -200,7 +200,7 @@ class LoansController extends Controller
         return redirect()->back();
     }
 
-    public function status()
+    public function paid()
     {
         $loans = Loan::where('status',false)->get();
         return view('admin.loans.paid', compact('loans'));

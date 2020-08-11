@@ -12,15 +12,16 @@
                     <li class="{{ Request::is('admin/contributions*') ? 'active' : '' }}">
                         <a href="{{ route('contributions.index') }}"> <i class="menu-icon fa fa-plus-circle"></i>Contributions</a>
                     </li>
-                    <li class="{{ Request::is('admin/loans*') ? 'active' : '' }} {{ Request::is('admin/status/loans*') ? 'active' : '' }} {{ Request::is('admin/defaulted/loans*') ? 'active' : '' }}">
+                    <li class="{{ Request::is('admin/loans*') ? 'active' : '' }} {{ Request::is('admin/paid/loans*') ? 'active' : '' }} {{ Request::is('admin/defaulted/loans*') ? 'active' : '' }}">
                         <a href="{{ route('loans.index') }}"> <i class="menu-icon fa fa-credit-card"></i>Loans</a>
                     </li>
                     <li class="{{ Request::is('admin/expenses*') ? 'active' : '' }}">
                         <a href="{{ route('expenses.index') }}"> <i class="menu-icon fa fa-usd"></i>Expenses</a>
                     </li>
-                    <li class="{{ Request::is('admin/projects*') ? 'active' : '' }}">
+                    <li class="{{ Request::is('admin/projects*') ? 'active' : '' }} {{ Request::is('admin/completed/projects*') ? 'active' : '' }} {{ Request::is('admin/failed/projects*') ? 'active' : '' }}">
                         <a href="{{ route('projects.index') }}"> <i class="menu-icon fa fa-briefcase"></i>Projects</a>
                     </li>
+                    
                     <!-- <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
                         <ul class="sub-menu children dropdown-menu">

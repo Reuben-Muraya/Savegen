@@ -8,13 +8,21 @@
 
 @section('content')
 <div class="row">
-    <div class="col-lg-6">
+    {{-- <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
                 <strong><i class="fa fa-home"></i>  Update Profile</strong>
             </div>
+            <div class="custom-tab">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active show" id="custom-nav-profile-tab" data-toggle="tab" href="#custom-nav-profile" role="tab" aria-controls="custom-nav-profile" aria-selected="true">Profile</a>
+                        <a class="nav-item nav-link" id="custom-nav-password-tab" data-toggle="tab" href="#custom-nav-password" role="tab" aria-controls="custom-nav-password" aria-selected="false">Change Password</a>
+                    </div>
+                </nav>
+            </div>
             <div class="card-body card-block">
-                <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="form-horizontal tab-pane fade active show" id="custom-nav-profile" role="tabpanel" aria-labelledby="custom-nav-profile-tab">
                     @csrf
                     @method('PUT')
                     <div class="row form-group">
@@ -37,18 +45,6 @@
                         <div class="col col-md-3"><label for="email" class=" form-control-label"><strong>Email Address:</strong></label></div>
                         <div class="col-12 col-md-9"><input type="email" id="email" name="email" placeholder="Enter your Email Address" class="form-control" value="{{ Auth::user()->email }}"></div>
                     </div>
-                    {{-- <div class="row form-group">
-                        <div class="col col-md-3"><label for="old password" class=" form-control-label"><strong>Old Password:</strong></label></div>
-                        <div class="col-12 col-md-9"><input type="password" id="password" name="password" placeholder="Enter your old password" class="form-control"></div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3"><label for="password" class=" form-control-label"><strong>Password:</strong></label></div>
-                        <div class="col-12 col-md-9"><input type="password" id="password-input" name="password" placeholder="Enter new password" class="form-control"></div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3"><label for="password" class=" form-control-label"><strong>Confirm Password:</strong></label></div>
-                        <div class="col-12 col-md-9"><input type="password" id="password" name="password" placeholder="Confirm new password" class="form-control"></div>
-                    </div> --}}
                     <div class="row form-group">
                         <div class="col col-md-3"><label for="about" class=" form-control-label"><strong>About:</strong></label></div>
                         <div class="col-12 col-md-9"><textarea name="about" id="about" rows="5" class="form-control">{{ Auth::user()->about }}</textarea></div>
@@ -59,50 +55,94 @@
                         <div class="col-12 col-md-9"><input type="file" id="" name="image" class="form-control-file"></div>
                     </div>
                     <div class="form-actions form-group pull-right">
-                        {{-- <button type="cancel" class="btn btn-secondary btn-sm">Cancel</button> --}}
                         <button type="submit" class="btn btn-primary btn-sm">UPDATE</button>
                     </div>
                 </form>
             </div>
+            
         </div>
-    </div>
+    </div> --}}
     <div class="col-lg-6">
-       {{-- <div class="card">
-           <div class="card-header text-center">
-             <strong><i class="fa fa-user"></i>  Profile</strong>
-           </div>
-           <div class="card-body card-block">
-            <div class="card-body">
-                <!-- Credit Card -->
-                <div id="pay-invoice">
-                    <div class="card-body">
-                        <div class="card-image">
-                           <img class="user-avatar rounded-circle" src="{{ url('storage/profile/'.Auth::user()->image) }}" width="120" height="120" alt="User Image">
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <div class="text-center">
-                                Name: <strong> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</strong>
-                              </div>
-                              <div class="text-center">
-                                  Phone No: <strong> {{ Auth::user()->phone_no }}</strong>
-                              </div>
-                              <div class="text-center">
-                                  ID Number: <strong> {{ Auth::user()->id_number }}</strong>
-                              </div>
-                              <div class="text-center">
-                                  Email: <strong> {{ Auth::user()->email }}</strong>
-                              </div>
-                              <div class="text-center">
-                                 About: <strong> {{ Auth::user()->about }}</strong>
-                              </div>
+                <div class="card">
+                    <div class="card-header">
+                        <strong><i class="fa fa-cogs"></i>   Settings</strong>
+                    </div>
+                    <div class="card-body card-block">
+                        <div class="custom-tab">
+
+                            <nav class="pb-3">
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <a class="nav-item nav-link active show" id="custom-nav-profile-tab" data-toggle="tab" href="#custom-nav-profile" role="tab" aria-controls="custom-nav-profile" aria-selected="false">Profile</a>
+                                    <a class="nav-item nav-link" id="custom-nav-password-tab" data-toggle="tab" href="#custom-nav-password" role="tab" aria-controls="custom-nav-password" aria-selected="false">Update Password</a>
+                                </div>
+                            </nav>
+                            <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                                <div class="tab-pane fade active show" id="custom-nav-profile" role="tabpanel" aria-labelledby="custom-nav-profile-tab">
+                                    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="row form-group">
+                                            <div class="col col-md-3"><label for="first_name" class=" form-control-label"><strong>First Name:</strong></label></div>
+                                            <div class="col-12 col-md-9"><input type="text" id="first_name" name="first_name" placeholder="Enter your First Name" class="form-control" value="{{ Auth::user()->first_name }}"></div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3"><label for="last_name" class=" form-control-label"><strong>Last Name:</strong></label></div>
+                                            <div class="col-12 col-md-9"><input type="text" id="last_name" name="last_name" placeholder="Enter your Last Name" class="form-control" value="{{ Auth::user()->last_name }}"></div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3"><label for="phone_no" class=" form-control-label"><strong>Phone Number:</strong></label></div>
+                                            <div class="col-12 col-md-9"><input type="text" id="phone_no" name="phone_no" placeholder="Enter your Phone Number" class="form-control" value="{{ Auth::user()->phone_no }}"></div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3"><label for="id_number" class=" form-control-label"><strong>ID Number / Passport No:</strong></label></div>
+                                            <div class="col-12 col-md-9"><input type="text" id="id_number" name="id_number" placeholder="Enter your ID / Passport No" class="form-control" value="{{ Auth::user()->id_number }}"></div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3"><label for="email" class=" form-control-label"><strong>Email Address:</strong></label></div>
+                                            <div class="col-12 col-md-9"><input type="email" id="email" name="email" placeholder="Enter your Email Address" class="form-control" value="{{ Auth::user()->email }}"></div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3"><label for="about" class=" form-control-label"><strong>About:</strong></label></div>
+                                            <div class="col-12 col-md-9"><textarea name="about" id="about" rows="5" class="form-control">{{ Auth::user()->about }}</textarea></div>
+                                        </div>
+                            
+                                        <div class="row form-group">
+                                            <div class="col col-md-3"><label for="name" class=" form-control-label"><strong>Profile Image:</strong></label></div>
+                                            <div class="col-12 col-md-9"><input type="file" id="" name="image" class="form-control-file"></div>
+                                        </div>
+                                        <div class="form-actions form-group pull-right">
+                                            <button type="submit" class="btn btn-primary btn-sm">UPDATE</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="custom-nav-password" role="tabpanel" aria-labelledby="custom-nav-password-tab">
+                                    <form action="{{ route('password.update') }}" method="POST" class="form-horizontal">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="row form-group">
+                                            <div class="col col-md-3"><label for="old_password" class=" form-control-label"><strong>Old Password:</strong></label></div>
+                                            <div class="col-12 col-md-9"><input type="password" id="old_password" name="old_password" placeholder="Enter your Old Password" class="form-control"></div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3"><label for="password" class=" form-control-label"><strong>New Password:</strong></label></div>
+                                            <div class="col-12 col-md-9"><input type="password" id="password" name="password" placeholder="Enter new password" class="form-control"></div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3"><label for="password_confirmation" class=" form-control-label"><strong>Confirm Password:</strong></label></div>
+                                            <div class="col-12 col-md-9"><input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm your new password" class="form-control"></div>
+                                        </div>
+                                        <div class="form-actions form-group pull-right">
+                                            <button type="submit" class="btn btn-primary btn-sm">Update Password</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-
             </div>
-            </div>
-       </div> --}}
+    <div class="col-lg-6">
        <div class="card">
         <div class="card-header">
             <i class="fa fa-user"></i><strong class="card-title pl-2">Profile Card</strong>
@@ -131,6 +171,8 @@
     </div>
     </div>
 </div>
+
+
 @endsection
 
 @push('js')

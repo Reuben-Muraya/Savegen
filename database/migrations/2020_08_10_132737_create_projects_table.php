@@ -21,7 +21,8 @@ class CreateProjectsTable extends Migration
             $table->float('deal_profit')->nullable();
             $table->string('start_date')->nullable();
             $table->string('end_date')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image')->default('default.png');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

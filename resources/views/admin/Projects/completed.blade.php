@@ -1,83 +1,32 @@
 @extends('layouts.backend.app')
 
-@section('title', 'Projects')
+@section('title', 'Completed Projects')
 
 @push('css')
 
 @endpush
 
 @section('content')
-{{-- Start Add Modal --}}
-  
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="myModalLabel"><strong>Add Project</strong></h5>
-        </div>
-        <form action="#" method="POST" id="addproject-form" enctype="multipart/form-data">
-            @csrf
-            <div class="modal-body">
-              <div class="form-group">
-                  <label for="description"><strong>Description: <span style="color: red">*</span></strong></label>
-                  <input type="text" name="description" class="form-control" placeholder="Enter the description" required>
-              </div>
-              <div class="form-group">
-                  <label for="deal_value"><strong>Deal Value: </strong></label>
-                  <input type="text" name="deal_value" class="form-control" placeholder="Enter the Deal Value" >
-              </div>
-              {{-- <div class="form-group">
-                  <label for="deal_expense"><strong>Deal Expense: </strong></label>
-                  <input type="text" name="deal_expense" class="form-control" placeholder="Enter the Deal Expense">
-              </div>
-              <div class="form-group">
-                  <label for="deal_expense"><strong>Deal Profit: </strong></label>
-                  <input type="text" name="deal_profit" class="form-control" placeholder="Enter the Deal Profit">
-              </div> --}}
-              <div class="form-group">
-                <label for="start_date"><strong>Date: </strong></label>
-                <input type="date" class="form-control" name="start_date" placeholder="Select the start date">
-            </div>
-              <div class="form-group">
-                  <label for="image"><strong>Project Files:</strong></label>
-                  <input type="file" name="image"> 
-              </div>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success" id="addproject">Submit Project</button>
-            </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  
-{{-- End Add Modal --}}
 
 <div class="content">
     <div class="container-fluid row">
         <div class="block-header">
-          <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-            <span><i class="fa fa-plus"></i> Add Project</span>
-          </button>
-       </div>
-    <div class="block-header">
-        <a href="{{ route('projects.completed') }}" class="btn btn-success btn-sm" type="submit">
-            <span><i class="fa fa-thumbs-up"></i> Completed Projects</span>
-        </a>
-    </div> 
-    <div class="block-header">
-        <a href="{{ route('projects.failed') }}" class="btn btn-danger btn-sm" type="submit">
-            <span><i class="fa  fa-exclamation-triangle"></i> Failed Projects</span>
-        </a>
-    </div> 
+            <a href="{{ URL::previous() }}" class="btn btn-primary btn-sm" type="submit">
+                <span><i class="fa fa-backward">  Back</i></span>   
+            </a>
+        </div> 
+        <div class="block-header">
+            <a href="{{ route('projects.failed') }}" class="btn btn-danger btn-sm" type="submit">
+                <span><i class="fa  fa-exclamation-triangle"></i> Failed Projects</span>
+            </a>
+        </div> 
     </div>
     <div class="animated fadeIn">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Project List <span class="badge badge-primary">{{$projects->count() }}</span></strong>
+                        <strong class="card-title">Completed Project List <span class="badge badge-primary">{{$projects->count() }}</span></strong>
                     </div>
                     <div class="card-body">
                         <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
@@ -107,9 +56,7 @@
                                    <td><img class="user-avatar rounded-circle" src="{{ url('storage/project/'.$project->image) }}" width="50" height="50" alt="Project Image"></td>
                                    <td class="text-center">
                                     <a href="{{ route('projects.show',$project->id) }}"><i class="fa fa-eye" style="color: navy"></i></a> |
-                                    <a href=""><i class="fa fa-check-circle" style="color: lime"></i></a> |
                                     <a href="#" data-toggle="modal" data-target="#edit-loan"><i class="fa fa-pencil" style="color: aqua"></i></a> |
-                                    <a href="#" ><i class="fa fa-exclamation-triangle" style="color: maroon"></i></a> |
                                     <p-button class="btn btn-danger" type="submit" style='background-color: transparent; border: none' onclick="deleteProject({{ $project->id }})">
                                       <i style='color:red' class="fa fa-trash-o" [ngClass]="{'active': pinned}"></i>
                                     </p-button>

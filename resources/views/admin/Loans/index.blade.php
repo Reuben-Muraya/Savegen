@@ -123,7 +123,7 @@
             </div> 
 
             <div class="block-header">
-                <a href="{{ route('loans.status') }}" class="btn btn-success btn-sm" type="submit">
+                <a href="{{ route('loans.paid') }}" class="btn btn-success btn-sm" type="submit">
                     <span><i class="fa fa-thumbs-up"></i> Paid Loans</span>
                     
                 </a>

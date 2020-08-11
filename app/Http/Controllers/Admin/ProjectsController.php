@@ -19,7 +19,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = Project::latest()->get();
+        $projects = Project::latest()->where('status', true)->get();
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -152,5 +152,17 @@ class ProjectsController extends Controller
         // // echo json_encode($response); exit; 
         // Toastr::success('Project Successfully Deleted', 'Success');
         return redirect()->back();
+    }
+
+    public function completed()
+    {
+        $projects = Project::where('status',false)->get();
+        return view('admin.projects.completed', compact('projects'));
+    }
+
+    public function failed()
+    {
+        $projects = Project::where('status', 2)->get();
+        return view('admin.projects.failed', compact('projects'));
     }
 }

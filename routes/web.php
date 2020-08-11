@@ -33,8 +33,12 @@ Route::group(['prefix' => 'admin','middleware'=>'auth','namespace'=>'admin'], fu
 
     Route::get('settings','SettingsController@index')->name('settings');
     Route::put('profile-update','SettingsController@updateProfile')->name('profile.update');
+    Route::put('password-update','SettingsController@updatePassword')->name('password.update');
 
-    Route::get('status/loans', 'LoansController@status')->name('loans.status');
+    Route::get('paid/loans', 'LoansController@paid')->name('loans.paid');
     Route::get('defaulted/loans', 'LoansController@defaulted')->name('loans.defaulted');
+
+    Route::get('completed/projects', 'ProjectsController@completed')->name('projects.completed');
+    Route::get('failed/projects', 'ProjectsController@failed')->name('projects.failed');
 
 });

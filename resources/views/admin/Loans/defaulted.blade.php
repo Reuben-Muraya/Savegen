@@ -1,6 +1,6 @@
 @extends('layouts.backend.app')
 {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
-@section('title', 'Loans')
+@section('title', 'Defaulted Loans')
 
 @push('css')
 
@@ -123,7 +123,7 @@
             </div> 
 
             <div class="block-header">
-                <a href="{{ route('loans.status') }}" class="btn btn-success btn-sm">
+                <a href="{{ route('loans.paid') }}" class="btn btn-success btn-sm">
                     <span><i class="fa fa-thumbs-up"></i> Paid Loans</span>
                 </a>
             </div> 
