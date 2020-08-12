@@ -59,8 +59,21 @@ class SettingsController extends Controller
         $user->about = $request->about;
         $user->image = $imageName;
         $user->save();
-        Toastr::success('Profile Successfully Updated','Success');
-        return redirect()->back();
+
+        if($user->save()){
+            $response = [
+                'status' =>true,
+                'message'=>'Profile Successfully Updated',
+            ];
+        }else{
+            $response = [
+                'status' =>false,
+                'message'=>'Profile not Updated',
+            ];
+        }
+        // echo json_encode($response); exit;
+        // Toastr::success('Profile Successfully Updated','Success');
+        // return redirect()->back();
     }
 
     public function updatePassword(Request $request)
@@ -77,10 +90,21 @@ class SettingsController extends Controller
             {
                 $user = User::find(Auth::id());
                 $user->password = Hash::make($request->password);
-                $user->save();
-                Toastr::success('Password Successfully Changed','Success');
+                // $user->save();
+                if($user->save()){
+                    $response = [
+                        'status' =>true,
+                        'message'=>'Password Successfully Updated',
+                    ];
+                }else{
+                    $response = [
+                        'status' =>false,
+                        'message'=>'Password not Updated',
+                    ];
+                }
+                // Toastr::success('Password Successfully Changed','Success');
                 // Auth::logout();
-                return redirect()->back();
+                // return redirect()->back();
             }else{
                 Toastr::error('New password cannot be the same as old password.','Error');
                 return redirect()->back();

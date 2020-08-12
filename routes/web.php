@@ -31,6 +31,8 @@ Route::group(['prefix' => 'admin','middleware'=>'auth','namespace'=>'admin'], fu
     Route::resource('projects', 'ProjectsController');
     Route::resource('expenses', 'ExpensesController');
 
+    Route::patch('projects/{projects}/edit', 'ProjectsController@completed');
+
     Route::get('settings','SettingsController@index')->name('settings');
     Route::put('profile-update','SettingsController@updateProfile')->name('profile.update');
     Route::put('password-update','SettingsController@updatePassword')->name('password.update');

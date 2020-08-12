@@ -119,9 +119,22 @@ class ProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Project $project, Request $request, $id)
     {
-        //
+        // public function completed(Project $project)
+        // {
+        //     if($project->completed == true)
+        //     {
+        //         $project->completed = false;
+        //         $project->update(['completed' => $project->completed]);
+
+        //         return redirect('')
+        //     }
+        //     else 
+        //     {
+
+        //     }
+        // }
     }
 
     /**
@@ -165,4 +178,5 @@ class ProjectsController extends Controller
         $projects = Project::where('status', 2)->get();
         return view('admin.projects.failed', compact('projects'));
     }
+    
 }
