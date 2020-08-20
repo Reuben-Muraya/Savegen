@@ -22,7 +22,7 @@ class CreateProjectsTable extends Migration
             $table->string('start_date')->nullable();
             $table->string('end_date')->nullable();
             $table->string('image')->default('default.png');
-            $table->boolean('status')->default(true);
+            $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });
     }

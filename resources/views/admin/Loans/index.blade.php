@@ -153,6 +153,7 @@
                                         <th>Email</th>
                                         <th>Date</th>
                                         <th>Amount Borrowed</th>
+                                        {{-- <th>Amount to be paid</th> --}}
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -167,15 +168,25 @@
                                            <td>{{ $loan->email }}</td>
                                            <td>{{ $loan->created_at }}</td>
                                            <td>Ksh {{ $loan->amount }}.00</td>
+                                           {{-- <td>Ksh {{ $loan->amount + $loan->amount * 0.06 }}.00</td> --}}
                                            <td class="text-center">
                                              <a href="{{ route('loans.show',$loan->id) }}"><i class="fa fa-eye" style="color: navy"></i></a> |
-                                             <a href=""><i class="fa fa-check-circle" style="color: lime"></i></a> |
-                                             {{-- <p-button class="btn btn-info" type="submit"  data-toggle="modal" data-target="#editloan" style='background-color: transparent; border: none'>
-                                                <i style='color:aqua' class="fa fa-pencil" [ngClass]="{'active': pinned}"></i>
-                                              </p-button>  | --}}
+                                             <p-button class="btn btn-danger pl-1 pr-1" type="submit" style='background-color: transparent; border: none' onclick="paidLoan({{ $loan->id }})">
+                                                <i style='color:lime' class="fa fa-check-circle" [ngClass]="{'active': pinned}"></i> 
+                                              </p-button> |
+                                              <form method="POST" id="paid-form" action="{{ route('loans.pay',$loan->id) }}" style="display: none;">
+                                                @csrf
+                                                @method('PUT')
+                                              </form>
                                             <a href="#" data-toggle="modal" data-target="#edit-loan"><i class="fa fa-pencil" style="color: aqua"></i></a> |
-                                            <a href="#" ><i class="fa fa-exclamation-triangle" style="color: maroon"></i></a> |
-                                            <p-button class="btn btn-danger" type="submit" style='background-color: transparent; border: none' onclick="deleteLoan({{ $loan->id }})">
+                                            <p-button class="btn btn-danger pl-1 pr-1" type="submit" style='background-color: transparent; border: none' onclick="defaultedLoan({{ $loan->id }})">
+                                                <i style='color:maroon' class="fa fa-exclamation-triangle" [ngClass]="{'active': pinned}"></i> 
+                                              </p-button> |
+                                              <form method="POST" id="defaulted-form" action="{{ route('loans.default',$loan->id) }}" style="display: none;">
+                                                @csrf
+                                                @method('PUT')
+                                              </form>
+                                            <p-button class="btn btn-danger pl-1 pr-1" type="submit" style='background-color: transparent; border: none' onclick="deleteLoan({{ $loan->id }})">
                                               <i style='color:red' class="fa fa-trash-o" [ngClass]="{'active': pinned}"></i>
                                             </p-button>
                                             <form id="delete-form-{{ $loan->id }}" action="{{ route('loans.destroy',$loan->id) }}" method="POST" style="display: none;">
@@ -241,6 +252,50 @@
      }
      });
   }
+
+  function paidLoan(id) {
+  Swal.fire({
+    title: 'Do you want submit loan as paid?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Paid'
+  }).then((result) => {
+    if (result.value) {
+        event.preventDefault();
+        document.getElementById('paid-form').submit();
+        Swal.fire(
+        'Loan Defaulted!',
+        'Your loan has been defaulted.',
+        'success'
+      )
+      // setInterval('location.reload()', 1000);
+    }
+  })
+}
+
+function defaultedLoan(id) {
+  Swal.fire({
+    title: 'Do you want submit loan as defaulted?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Defaulted'
+  }).then((result) => {
+    if (result.value) {
+        event.preventDefault();
+        document.getElementById('defaulted-form').submit();
+        Swal.fire(
+        'Loan Paid!',
+        'Your loan has been paid.',
+        'success'
+      )
+      // setInterval('location.reload()', 1000);
+    }
+  })
+}
 
   jQuery(document).ready(function(){
              jQuery('#addloan-form').submit(function(e){

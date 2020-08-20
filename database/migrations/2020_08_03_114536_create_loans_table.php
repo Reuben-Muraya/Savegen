@@ -22,7 +22,7 @@ class CreateLoansTable extends Migration
             $table->string('email');
             $table->float('amount');
             $table->string('image')->default('default.png');
-            $table->boolean('status')->default(true);
+            $table->boolean('is_paid')->default(false);
             $table->timestamps();
         });
     }

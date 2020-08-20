@@ -21,7 +21,7 @@ class LoansController extends Controller
      */
     public function index()
     {
-        $loans = Loan::latest()->where('status', true)->get();
+        $loans = Loan::latest()->where('is_paid', false)->get();
         return view('admin.loans.index', compact('loans'));
     }
 
@@ -170,6 +170,38 @@ class LoansController extends Controller
         // return redirect()->back();
     }
 
+       public function pay($id)
+        {
+            $loan = Loan::findOrFail($id);
+            if ($loan->is_paid == false || 2)
+            {
+                $loan->is_paid = true;
+                $loan->save();
+                // Toastr::success('Loan Successfully paid', 'Success');
+            } else {
+                // Toastr::info('Loan is already paid', 'Info');
+            }
+            return redirect()->back();
+
+            // return response()->json(['message' => 'Loan status updated successfully.']);
+       }
+
+       public function default($id)
+        {
+            $loan = Loan::findOrFail($id);
+            if ($loan->is_paid == false || true)
+            {
+                $loan->is_paid = 2;
+                $loan->save();
+                // Toastr::success('Loan is defaulted', 'Success');
+            } else {
+                // Toastr::info('Loan is already on the defaulted list', 'Info');
+            }
+            return redirect()->back();
+
+            // return response()->json(['message' => 'Project status updated successfully.']);
+        }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -202,13 +234,13 @@ class LoansController extends Controller
 
     public function paid()
     {
-        $loans = Loan::where('status',false)->get();
+        $loans = Loan::where('is_paid', true)->get();
         return view('admin.loans.paid', compact('loans'));
     }
 
     public function defaulted()
     {
-        $loans = Loan::where('status', 2)->get();
+        $loans = Loan::where('is_paid', 2)->get();
         return view('admin.loans.defaulted', compact('loans'));
     }
 }

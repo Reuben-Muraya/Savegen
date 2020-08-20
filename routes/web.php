@@ -30,8 +30,14 @@ Route::group(['prefix' => 'admin','middleware'=>'auth','namespace'=>'admin'], fu
     Route::resource('loans', 'LoansController');
     Route::resource('projects', 'ProjectsController');
     Route::resource('expenses', 'ExpensesController');
-
-    Route::patch('projects/{projects}/edit', 'ProjectsController@completed');
+    
+    //Project Status Update
+    Route::put('/project/{id}/complete', 'ProjectsController@complete')->name('projects.complete');
+    Route::put('/project/{id}/fail', 'ProjectsController@fail')->name('projects.fail');
+    
+    //Loan Status Update
+    Route::put('/loan/{id}/pay', 'LoansController@pay')->name('loans.pay');
+    Route::put('/loan/{id}/default', 'LoansController@default')->name('loans.default');
 
     Route::get('settings','SettingsController@index')->name('settings');
     Route::put('profile-update','SettingsController@updateProfile')->name('profile.update');

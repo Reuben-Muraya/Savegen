@@ -107,9 +107,21 @@
                                    <td><img class="user-avatar rounded-circle" src="{{ url('storage/project/'.$project->image) }}" width="50" height="50" alt="Project Image"></td>
                                    <td class="text-center">
                                     <a href="{{ route('projects.show',$project->id) }}"><i class="fa fa-eye" style="color: navy"></i></a> |
-                                    <a href=""><i class="fa fa-check-circle" style="color: lime"></i></a> |
+                                    <p-button class="btn btn-danger" type="submit" style='background-color: transparent; border: none' onclick="completeProject({{ $project->id }})">
+                                      <i style='color:lime' class="fa fa-check-circle" [ngClass]="{'active': pinned}"></i> 
+                                    </p-button> |
+                                    <form method="POST" id="complete-form" action="{{ route('projects.complete',$project->id) }}" style="display: none;">
+                                      @csrf
+                                      @method('PUT')
+                                    </form>
                                     <a href="#" data-toggle="modal" data-target="#edit-loan"><i class="fa fa-pencil" style="color: aqua"></i></a> |
-                                    <a href="#" ><i class="fa fa-exclamation-triangle" style="color: maroon"></i></a> |
+                                    <p-button class="btn btn-danger" type="submit" style='background-color: transparent; border: none' onclick="failedProject({{ $project->id }})">
+                                      <i style='color:maroon' class="fa fa-exclamation-triangle" [ngClass]="{'active': pinned}"></i> 
+                                    </p-button> |
+                                    <form method="POST" id="failed-form" action="{{ route('projects.fail',$project->id) }}" style="display: none;">
+                                      @csrf
+                                      @method('PUT')
+                                    </form>
                                     <p-button class="btn btn-danger" type="submit" style='background-color: transparent; border: none' onclick="deleteProject({{ $project->id }})">
                                       <i style='color:red' class="fa fa-trash-o" [ngClass]="{'active': pinned}"></i>
                                     </p-button>
@@ -173,6 +185,50 @@
     }
     });
  }
+
+ function completeProject(id) {
+  Swal.fire({
+    title: 'Do you want submit Project as completed?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Completed'
+  }).then((result) => {
+    if (result.value) {
+        event.preventDefault();
+        document.getElementById('complete-form').submit();
+        Swal.fire(
+        'Project Completed!',
+        'Your project has been completed.',
+        'success'
+      )
+      // setInterval('location.reload()', 1000);
+    }
+  })
+}
+
+function failedProject(id) {
+  Swal.fire({
+    title: 'Do you want submit Project as Failed?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Failed'
+  }).then((result) => {
+    if (result.value) {
+        event.preventDefault();
+        document.getElementById('failed-form').submit();
+        Swal.fire(
+        'Project Failed!',
+        'Your project Failed!',
+        'success'
+      )
+      // setInterval('location.reload()', 1000);
+    }
+  })
+}
 
 jQuery(document).ready(function(){
             jQuery('#addproject-form').submit(function(e){

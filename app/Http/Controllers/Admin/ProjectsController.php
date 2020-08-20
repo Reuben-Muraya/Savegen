@@ -19,7 +19,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = Project::latest()->where('status', true)->get();
+        $projects = Project::latest()->where('is_completed', false)->get();
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -51,7 +51,7 @@ class ProjectsController extends Controller
         ]);
         //get form image
         $image = $request->file('image');
-        $slug = Str::slug($request->deal_value);
+        $slug = Str::slug($request->description);
         if(isset($image))
         {
             // make unique name for image
@@ -121,20 +121,39 @@ class ProjectsController extends Controller
      */
     public function update(Project $project, Request $request, $id)
     {
-        // public function completed(Project $project)
-        // {
-        //     if($project->completed == true)
-        //     {
-        //         $project->completed = false;
-        //         $project->update(['completed' => $project->completed]);
+        // 
+    }
 
-        //         return redirect('')
-        //     }
-        //     else 
-        //     {
+    public function complete($id)
+    {
+        $project = Project::findOrFail($id);
+        if ($project->is_completed == false || 2)
+        {
+            $project->is_completed = true;
+            $project->save();
+            // Toastr::success('Project Successfully Completed', 'Success');
+        } else {
+            // Toastr::info('Project is already compelted', 'Info');
+        }
+        return redirect()->back();
 
-        //     }
-        // }
+        // return response()->json(['message' => 'Project status updated successfully.']);
+    }
+
+    public function fail($id)
+    {
+        $project = Project::findOrFail($id);
+        if ($project->is_completed == false || true)
+        {
+            $project->is_completed = 2;
+            $project->save();
+            // Toastr::success('Project Successfully Completed', 'Success');
+        } else {
+            // Toastr::info('Project is already compelted', 'Info');
+        }
+        return redirect()->back();
+
+        // return response()->json(['message' => 'Project status updated successfully.']);
     }
 
     /**
@@ -151,7 +170,7 @@ class ProjectsController extends Controller
         }
         $project->delete();
 
-        // if($loan->delete()){
+        // if($project->delete()){
         //     $response = [
         //         'status' =>true,
         //         'message'=>'Project Successfully Deleted',
@@ -169,13 +188,13 @@ class ProjectsController extends Controller
 
     public function completed()
     {
-        $projects = Project::where('status',false)->get();
+        $projects = Project::where('is_completed',true)->get();
         return view('admin.projects.completed', compact('projects'));
     }
 
     public function failed()
     {
-        $projects = Project::where('status', 2)->get();
+        $projects = Project::where('is_completed', 2)->get();
         return view('admin.projects.failed', compact('projects'));
     }
     

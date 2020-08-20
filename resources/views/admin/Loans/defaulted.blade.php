@@ -168,7 +168,13 @@
                                            <td>Ksh {{ $loan->amount }}.00</td>
                                            <td class="text-center">
                                              <a href="{{ route('loans.show',$loan->id) }}"><i class="fa fa-eye" style="color: navy"></i></a> |
-                                             <a href=""><i class="fa fa-check-circle" style="color: lime"></i></a> |
+                                             <p-button class="btn btn-danger pl-0 pr-0" type="submit" style='background-color: transparent; border: none' onclick="paidLoan({{ $loan->id }})">
+                                                <i style='color:lime' class="fa fa-check-circle" [ngClass]="{'active': pinned}"></i> 
+                                              </p-button> |
+                                              <form method="POST" id="paid-form" action="{{ route('loans.pay',$loan->id) }}" style="display: none;">
+                                                @csrf
+                                                @method('PUT')
+                                              </form>
                                              {{-- <p-button class="btn btn-info" type="submit"  data-toggle="modal" data-target="#editloan" style='background-color: transparent; border: none'>
                                                 <i style='color:aqua' class="fa fa-pencil" [ngClass]="{'active': pinned}"></i>
                                               </p-button>  | --}}
@@ -239,6 +245,28 @@
      }
      })
   }
+
+  function paidLoan(id) {
+  Swal.fire({
+    title: 'Do you want submit loan as paid?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Paid'
+  }).then((result) => {
+    if (result.value) {
+        event.preventDefault();
+        document.getElementById('paid-form').submit();
+        Swal.fire(
+        'Loan Defaulted!',
+        'Your loan has been defaulted.',
+        'success'
+      )
+      // setInterval('location.reload()', 1000);
+    }
+  })
+}
 
   jQuery(document).ready(function(){
              jQuery('#addloan-form').submit(function(e){
